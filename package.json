@@ -1,0 +1,28 @@
+{
+  "name": "messanger-webhook",
+  "version": "1.0.0",
+  "description": "Getting started with the facebook messanger API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/theArchibold/messenger-webhook.git"
+  },
+  "keywords": [
+    "Messanger",
+    "API",
+    "Webhook"
+  ],
+  "author": "Archibold Bernard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/theArchibold/messenger-webhook/issues"
+  },
+  "homepage": "https://gitlab.com/theArchibold/messenger-webhook#README",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
