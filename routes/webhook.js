@@ -10,9 +10,14 @@ router.post('/', (request, response, next) => {
       let webhook_event = element.messaging[0];
       console.log(webhook_event)
     });
+
+    response.status(200).send("EVENT_RECEIVED")
+
+  } else {
+    response.sendStatus(403)
   }
 
-  response.status(200).send("Web hook event")
+  
 })
 
 
