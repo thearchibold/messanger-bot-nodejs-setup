@@ -4,6 +4,8 @@ router.post('/', (request, response, next) => {
 
   let body = request.body;
 
+  console.log("incoming request", body);
+
   //check this is an event from a page
   if (body.object === 'page') {
     body.entry.forEach(element => {
