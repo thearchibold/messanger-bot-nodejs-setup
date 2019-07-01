@@ -106,6 +106,16 @@ const handlePostback = (sender_psid, received_postback) => {
         response = askTemplate('What do you want to do today');
         callSendAPI(sender_psid, response);
     }
+  
+  if (payload === 'MAKE_PAYMENT') {
+    response = makePaymentTemplate('Please select your payment option');
+    callSendAPI(sender_psid, response);
+    
+  }
+  if (payload === 'BUY_TICKET') {
+    response = buyTicketTemplate('Please select your destination');
+    callSendAPI(sender_psid, response);    
+  }
 }
 
 
@@ -135,6 +145,60 @@ const askTemplate = (text) => {
       }
   }
 }
+
+
+
+const buyTicketTemplate = (text) => {
+  return {
+      "attachment":{
+          "type":"template",
+          "payload":{
+              "template_type":"button",
+              "text": text,
+              "buttons":[
+                  {
+                      "type":"postback",
+                      "title":"Accra",
+                      "payload":"ACCRA"
+                  },
+                  {
+                      "type":"postback",
+                      "title":"Kumasi",
+                      "payload":"KUMASI"
+                  }
+              ]
+          }
+      }
+  }
+}
+
+
+
+const makePaymentTemplate = (text) => {
+  return {
+      "attachment":{
+          "type":"template",
+          "payload":{
+              "template_type":"button",
+              "text": text,
+              "buttons":[
+                  {
+                      "type":"postback",
+                      "title":"Mobile Money",
+                      "payload":"MO_MO"
+                  },
+                  {
+                      "type":"postback",
+                      "title":"Credit Card",
+                      "payload":"CREDIT_CARD"
+                  }
+              ]
+          }
+      }
+  }
+}
+
+
 
 // Sends response messages via the Send API
 const callSendAPI = (sender_psid, response, cb = null) => {
