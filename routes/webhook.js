@@ -74,15 +74,15 @@ router.post('/', (req, res, next) => {
         console.log(webhook_event.message.text)
         console.log("sending reply");
         handleMessage(sender_psid, webhook_event.message);
-        res.status(200).send("OK");
+       // res.status(200).send('EVENT_RECEIVED');
       }
       if (webhook_event.postback) {
         console.log(webhook_event.postback)
         handlePostback(sender_psid, webhook_event.postback);
-        res.status(200).send("OK");
+        //res.status(200).send('EVENT_RECEIVED');
         
       }
-
+      res.status(200).send('EVENT_RECEIVED');
   } else {
     res.sendStatus(403)
   }
