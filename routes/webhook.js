@@ -15,48 +15,6 @@ console.log("Page token", PAGE_ACCESS_TOKEN)
 
 
 
-router.post('/', (req, res, next) => {
-
-  
-  let body = req.body;
-
- // console.log("incoming request", body);
-
-  //check this is an event from a page
-  if (body.object === 'page') {
-    let webhook_event;
-
-    webhook_event = body.entry[0].messaging[0];
-    // body.entry.forEach(element => {
-     
-    //   webhook_event = element.messaging[0];
-    
-    // });
-
-    let sender_psid = webhook_event.sender.id;
-      console.log('Sender PSID: ' + sender_psid);
-      //messenger.handleMessage(sender_psid, webhook_event.message);
-
-      if (webhook_event.message) {
-        console.log(webhook_event.message.text)
-        console.log("sending reply");
-        handleMessage(sender_psid, webhook_event.message);
-        res.sendStatus(200);
-      }
-      else if (webhook_event.postback) {
-        console.log(webhook_event.postback)
-        handlePostback(sender_psid, webhook_event.postback);
-        res.sendStatus(200);
-    }
-
-  } else {
-    res.sendStatus(403)
-  }
-
-  
-})
-
-
 router.get('/', (req, res) => {
   handleMessage();
   // Your verify token. Should be a random string.
@@ -87,6 +45,52 @@ router.get('/', (req, res) => {
 });
 
 
+
+
+
+router.post('/', (req, res, next) => {
+
+  
+  let body = req.body;
+
+ // console.log("incoming request", body);
+
+  //check this is an event from a page
+  if (body.object === 'page') {
+    let webhook_event;
+
+    webhook_event = body.entry[0].messaging[0];
+    // body.entry.forEach(element => {
+     
+    //   webhook_event = element.messaging[0];
+    
+    // });
+
+    let sender_psid = webhook_event.sender.id;
+      console.log('Sender PSID: ' + sender_psid);
+      //messenger.handleMessage(sender_psid, webhook_event.message);
+
+      if (webhook_event.message) {
+        console.log(webhook_event.message.text)
+        console.log("sending reply");
+        handleMessage(sender_psid, webhook_event.message);
+        res.status(200);
+      }
+      if (webhook_event.postback) {
+        console.log(webhook_event.postback)
+        handlePostback(sender_psid, webhook_event.postback);
+        res.status(200);
+      }
+
+  } else {
+    res.sendStatus(403)
+  }
+
+  
+})
+
+
+
 const handleMessage = (sender_psid, received_message) => {
   console.log("calling handle message")
  
@@ -102,7 +106,8 @@ const handlePostback = (sender_psid, received_postback) => {
     if(payload === 'GET_STARTED'){
         // response = askTemplate('Welcome to MyTicketGH');
       response = getStartedTemplate();
-        callSendAPI(sender_psid, response);
+      callSendAPI(sender_psid, response);
+      
     }
   
   if (payload === 'MAKE_PAYMENT') {
