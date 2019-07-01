@@ -9,6 +9,7 @@ var options = { method: 'POST',
      'accept-encoding': 'gzip, deflate',
      Host: 'graph.facebook.com',
      Accept: '*/*',
+     'User-Agent': 'PostmanRuntime/7.15.0',
      'Content-Type': 'application/json' },
   body: 
    { recipient: { id: 2402504579772777 },
