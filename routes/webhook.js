@@ -93,7 +93,9 @@ router.post('/', (req, res, next) => {
 
 
 const handleMessage = (sender_psid, received_message) => {
-  console.log("calling handle message")
+  console.log("calling handle message");
+  let response = "We will get  back to you later"
+  callSendAPI(sender_psid, response);
  
 }
 
