@@ -38,7 +38,7 @@ router.post('/', (req, res, next) => {
       //messenger.handleMessage(sender_psid, webhook_event.message);
 
       if (webhook_event.message) {
-        console.log(webhook_event.message)
+        console.log(webhook_event.message.text)
         console.log("sending reply");
         handleMessage(sender_psid, webhook_event.message);
         res.sendStatus(200);
@@ -48,7 +48,7 @@ router.post('/', (req, res, next) => {
         handlePostback(sender_psid, webhook_event.postback);
         res.sendStatus(200);
     }
-
+    res.sendStatus(200);
   } else {
     res.sendStatus(403)
   }
