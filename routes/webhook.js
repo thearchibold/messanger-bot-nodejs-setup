@@ -48,7 +48,7 @@ router.post('/', (req, res, next) => {
         handlePostback(sender_psid, webhook_event.postback);
         res.sendStatus(200);
     }
-    res.sendStatus(200);
+
   } else {
     res.sendStatus(403)
   }
@@ -89,12 +89,7 @@ router.get('/', (req, res) => {
 
 const handleMessage = (sender_psid, received_message) => {
   console.log("calling handle message")
-  let response;
-  
-
-  if (received_message.text) {
-
-  }
+ 
 }
 
 
