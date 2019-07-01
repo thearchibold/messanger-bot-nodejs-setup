@@ -31,13 +31,12 @@ router.post('/', (request, response, next) => {
       //messenger.handleMessage(sender_psid, webhook_event.message);
 
       if (webhook_event.message) {
-        
-        console.log("sending response")
-       
-        //handleMessage(sender_psid, webhook_event.message);
-    } else if (webhook_event.postback) {
-        
+        console.log(webhook_event.message)
+        console.log("sending reply");
       }
+      else if (webhook_event.postback) {
+        console.log(webhook_event.postback)
+    }
       
 
 
