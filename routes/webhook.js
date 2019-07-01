@@ -24,12 +24,18 @@ router.post('/', (req, res, next) => {
 
   //check this is an event from a page
   if (body.object === 'page') {
+    let webhook_event;
     body.entry.forEach(element => {
      
-      let webhook_event = element.messaging[0];
+      webhook_event = element.messaging[0];
      
 
-      let sender_psid = webhook_event.sender.id;
+      break;
+
+
+    });
+
+    let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
       //messenger.handleMessage(sender_psid, webhook_event.message);
 
@@ -43,9 +49,6 @@ router.post('/', (req, res, next) => {
         handlePostback(sender_psid, webhook_event.postback);
     }
       
-
-
-    });
 
     res.status(200).send("EVENT_RECEIVED")
 
@@ -90,6 +93,7 @@ router.get('/', (req, res) => {
 const handleMessage = (sender_psid, received_message) => {
   console.log("calling handle message")
   let response;
+  
 
   if (received_message.text) {
 
