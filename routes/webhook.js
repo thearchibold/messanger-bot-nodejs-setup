@@ -103,7 +103,7 @@ const handlePostback = (sender_psid, received_postback) => {
   let payload = received_postback.payload;
  
     if(payload === 'GET_STARTED'){
-        response = askTemplate('Are you a Cat or Dog Person?');
+        response = askTemplate('What do you want to do today');
         callSendAPI(sender_psid, response);
     }
 }
@@ -122,13 +122,13 @@ const askTemplate = (text) => {
               "buttons":[
                   {
                       "type":"postback",
-                      "title":"Cats",
-                      "payload":"CAT_PICS"
+                      "title":"Make Payment",
+                      "payload":"MAKE_PAYMENT"
                   },
                   {
                       "type":"postback",
-                      "title":"Dogs",
-                      "payload":"DOG_PICS"
+                      "title":"Buy Ticket",
+                      "payload":"BUY_TICKET"
                   }
               ]
           }
