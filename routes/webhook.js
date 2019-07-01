@@ -52,6 +52,7 @@ router.post('/', (req, res, next) => {
 
   
   let body = req.body;
+  res.status(200).send('EVENT_RECEIVED');
 
  // console.log("incoming request", body);
 
@@ -63,7 +64,7 @@ router.post('/', (req, res, next) => {
     body.entry.forEach(element => {
      
       webhook_event = element.messaging[0];
-      let sender_psid = webhook_event.sender.id;
+       let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
       //messenger.handleMessage(sender_psid, webhook_event.message);
 
@@ -83,7 +84,7 @@ router.post('/', (req, res, next) => {
     
     });
 
-    res.status(200).send('EVENT_RECEIVED');
+   
   } else {
     res.sendStatus(403)
   }
@@ -91,8 +92,6 @@ router.post('/', (req, res, next) => {
   
 })
 
-
-module.exports = router
 
 
 const handleMessage = (sender_psid, received_message) => {
@@ -105,7 +104,7 @@ const handleMessage = (sender_psid, received_message) => {
 
 
 
-function handlePostback (sender_psid, received_postback)  {
+const handlePostback = (sender_psid, received_postback) => {
 
   let payload = received_postback.payload;
  
@@ -248,7 +247,7 @@ const getStartedTemplate = () => {
 
 
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, response, cb = null){
+const callSendAPI = (sender_psid, response, cb = null) => {
   // Construct the message body
   let request_body = {
       "recipient": {
@@ -280,3 +279,4 @@ function callSendAPI(sender_psid, response, cb = null){
 
 
 
+module.exports = router
