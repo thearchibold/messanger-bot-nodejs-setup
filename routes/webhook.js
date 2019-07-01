@@ -100,10 +100,11 @@ const handleMessage = (sender_psid, received_message) => {
 
 
 const handlePostback = (sender_psid, received_postback) => {
+
   let payload = received_postback.payload;
  
     if(payload === 'GET_STARTED'){
-        response = askTemplate('What do you want to do today');
+        response = askTemplate('Welcome to MyTicketGH');
         callSendAPI(sender_psid, response);
     }
   
@@ -127,7 +128,9 @@ const askTemplate = (text) => {
       "attachment":{
           "type":"template",
           "payload":{
-              "template_type":"button",
+            "template_type": "generic",
+            "title": "MyTicketGH",
+            "image_url: "https://www.google.com.gh/imgres?imgurl=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1083472203574927360%2FAkozVAXY_400x400.jpg&imgrefurl=https%3A%2F%2Ftwitter.com%2Fmyticketgh&docid=yxk5DFGhjzctgM&tbnid=Bg48XMLuWn6jwM%3A&vet=10ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwhFKAcwBw..i&w=400&h=400&bih=604&biw=1366&q=myticketgh&ved=0ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwhFKAcwBw&iact=mrc&uact=8",
               "text": text,
               "buttons":[
                   {
@@ -227,6 +230,8 @@ const callSendAPI = (sender_psid, response, cb = null) => {
   });
 }
 
+
+// https://www.google.com.gh/imgres?imgurl=https%3A%2F%2Flookaside.fbsbx.com%2Flookaside%2Fcrawler%2Fmedia%2F%3Fmedia_id%3D877334128993545&imgrefurl=https%3A%2F%2Fwww.facebook.com%2Fmyticketgh%2F&docid=GD7vs2h-K2m1mM&tbnid=W4L7YMbh1BmzGM%3A&vet=10ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwg-KAAwAA..i&w=300&h=300&bih=604&biw=1366&q=myticketgh&ved=0ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwg-KAAwAA&iact=mrc&uact=8
 
 
 
