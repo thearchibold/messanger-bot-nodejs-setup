@@ -15,10 +15,10 @@ console.log("Page token", PAGE_ACCESS_TOKEN)
 
 
 
-router.post('/', (request, response, next) => {
+router.post('/', (req, res, next) => {
 
   
-  let body = request.body;
+  let body = req.body;
 
  // console.log("incoming request", body);
 
@@ -47,10 +47,10 @@ router.post('/', (request, response, next) => {
 
     });
 
-    response.status(200).send("EVENT_RECEIVED")
+    res.status(200).send("EVENT_RECEIVED")
 
   } else {
-    response.sendStatus(403)
+    res.sendStatus(403)
   }
 
   
@@ -100,15 +100,71 @@ const handleMessage = (sender_psid, received_message) => {
 
 
 const handlePostback = (sender_psid, received_postback) => {
-  let response;
-
-  // Get the payload for the postback
   let payload = received_postback.payload;
+ 
+    if(payload === 'GET_STARTED'){
+        response = askTemplate('Are you a Cat or Dog Person?');
+        callSendAPI(sender_psid, response);
+    }
+}
 
-  if(payload === 'GET_STARTED'){
 
+
+
+
+const askTemplate = (text) => {
+  return {
+      "attachment":{
+          "type":"template",
+          "payload":{
+              "template_type":"button",
+              "text": text,
+              "buttons":[
+                  {
+                      "type":"postback",
+                      "title":"Cats",
+                      "payload":"CAT_PICS"
+                  },
+                  {
+                      "type":"postback",
+                      "title":"Dogs",
+                      "payload":"DOG_PICS"
+                  }
+              ]
+          }
+      }
   }
 }
+
+// Sends response messages via the Send API
+const callSendAPI = (sender_psid, response, cb = null) => {
+  // Construct the message body
+  let request_body = {
+      "recipient": {
+          "id": sender_psid
+      },
+      "message": response
+  };
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+      "uri": "https://graph.facebook.com/v2.6/me/messages",
+      "qs": { "access_token": PAGE_ACCESS_TOKEN },
+      "method": "POST",
+      "json": request_body
+  }, (err, res, body) => {
+      if (!err) {
+          if(cb){
+              cb();
+          }
+      } else {
+          console.error("Unable to send message:" + err);
+      }
+  });
+}
+
+
+
 
 
 module.exports = router
