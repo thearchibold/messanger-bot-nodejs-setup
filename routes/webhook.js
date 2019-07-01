@@ -105,7 +105,7 @@ const handleMessage = (sender_psid, received_message) => {
 
 
 
-const handlePostback = (sender_psid, received_postback) => {
+function handlePostback (sender_psid, received_postback)  {
 
   let payload = received_postback.payload;
  
@@ -248,7 +248,7 @@ const getStartedTemplate = () => {
 
 
 // Sends response messages via the Send API
-const callSendAPI = (sender_psid, response, cb = null) => {
+function callSendAPI(sender_psid, response, cb = null){
   // Construct the message body
   let request_body = {
       "recipient": {
