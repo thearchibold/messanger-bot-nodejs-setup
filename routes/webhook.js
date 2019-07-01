@@ -52,7 +52,6 @@ router.post('/', (req, res, next) => {
 
   
   let body = req.body;
-  res.status(200).send('EVENT_RECEIVED');
 
  // console.log("incoming request", body);
 
@@ -80,7 +79,7 @@ router.post('/', (req, res, next) => {
         //res.status(200).send('EVENT_RECEIVED');
         
       }
-      
+      res.status(200).send('EVENT_RECEIVED');
     
     });
 
