@@ -63,10 +63,7 @@ router.post('/', (req, res, next) => {
     body.entry.forEach(element => {
      
       webhook_event = element.messaging[0];
-    
-    });
-
-    let sender_psid = webhook_event.sender.id;
+      let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
       //messenger.handleMessage(sender_psid, webhook_event.message);
 
@@ -82,7 +79,11 @@ router.post('/', (req, res, next) => {
         //res.status(200).send('EVENT_RECEIVED');
         
       }
-      res.status(200).send('EVENT_RECEIVED');
+      
+    
+    });
+
+    res.status(200).send('EVENT_RECEIVED');
   } else {
     res.sendStatus(403)
   }
@@ -90,6 +91,8 @@ router.post('/', (req, res, next) => {
   
 })
 
+
+module.exports = router
 
 
 const handleMessage = (sender_psid, received_message) => {
@@ -277,4 +280,3 @@ const callSendAPI = (sender_psid, response, cb = null) => {
 
 
 
-module.exports = router
