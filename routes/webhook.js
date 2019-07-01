@@ -28,11 +28,7 @@ router.post('/', (req, res, next) => {
     body.entry.forEach(element => {
      
       webhook_event = element.messaging[0];
-     
-
-      break;
-
-
+    
     });
 
     let sender_psid = webhook_event.sender.id;
