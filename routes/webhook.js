@@ -59,12 +59,12 @@ router.post('/', (req, res, next) => {
   if (body.object === 'page') {
     let webhook_event;
 
-    webhook_event = body.entry[0].messaging[0];
-    // body.entry.forEach(element => {
+    //webhook_event = body.entry[0].messaging[0];
+    body.entry.forEach(element => {
      
-    //   webhook_event = element.messaging[0];
+      webhook_event = element.messaging[0];
     
-    // });
+    });
 
     let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
@@ -74,12 +74,13 @@ router.post('/', (req, res, next) => {
         console.log(webhook_event.message.text)
         console.log("sending reply");
         handleMessage(sender_psid, webhook_event.message);
-        res.status(200);
+        res.status(200).send("OK");
       }
       if (webhook_event.postback) {
         console.log(webhook_event.postback)
         handlePostback(sender_psid, webhook_event.postback);
-        res.status(200);
+        res.status(200).send("OK");
+        
       }
 
   } else {
@@ -222,16 +223,16 @@ const getStartedTemplate = () => {
             // },
             "buttons":[
               {
-                  "type":"postback",
-                  "title":"Make Payment",
-                  "payload":"MAKE_PAYMENT"
-              },
-              {
-                  "type":"postback",
-                  "title":"Buy Ticket",
-                  "payload":"BUY_TICKET"
-              }
-          ]  
+                "type":"postback",
+                "title":"Make Payment",
+                "payload":"MAKE_PAYMENT"
+            },
+            {
+                "type":"postback",
+                "title":"Buy Ticket",
+                "payload":"BUY_TICKET"
+            }            
+            ]      
           }
         ]
       }
