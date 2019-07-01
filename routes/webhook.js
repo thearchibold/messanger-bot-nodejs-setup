@@ -8,7 +8,6 @@ require("../helpers/functions")
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const SEND_API = process.env.SEND_API;
 
-console.log(PAGE_ACCESS_TOKEN, SEND_API);
 
 
 
@@ -104,7 +103,7 @@ const handlePostback = (sender_psid, received_postback) => {
     let payload = received_postback.payload;
  
     if(payload === 'GET_STARTED'){
-        response = askTemplate('Are you a Cat or Dog Person?');
+        response = askTemplate('How would you like to get started?');
         callSendAPI(sender_psid, response);
     }
   }
