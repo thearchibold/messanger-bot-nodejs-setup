@@ -13,9 +13,9 @@ const SEND_API = process.env.SEND_API;
 
 
 
-router.post('/', (request, response, next) => {
+router.post('/', (req, response, next) => {
 
-  let body = request.body;
+  let body = req.body;
 
  // console.log("incoming request", body);
 
@@ -34,7 +34,6 @@ router.post('/', (request, response, next) => {
         
         console.log("sending response")
 
-
         var options = { method: 'POST',
         url: 'https://graph.facebook.com/v3.3/me/messages',
         qs: { access_token: PAGE_ACCESS_TOKEN },
@@ -47,13 +46,19 @@ router.post('/', (request, response, next) => {
         body: 
         { recipient: { id: sender_psid },
           message: 'This is a test reply from Archibold' },
-        json: true };
+          json: true
+        };
+        
+        
 
       request(options, function (error, response, body) {
         if (error) throw new Error(error);
 
         console.log(body);
-});
+       });
+
+
+        
 
        
         //handleMessage(sender_psid, webhook_event.message);
