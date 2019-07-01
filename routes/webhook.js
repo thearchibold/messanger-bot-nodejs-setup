@@ -222,15 +222,16 @@ const getStartedTemplate = () => {
             // },
             "buttons":[
               {
-                "type":"web_url",
-                "url":"https://petersfancybrownhats.com",
-                "title":"View Website"
-              },{
-                "type":"postback",
-                "title":"Start Chatting",
-                "payload":"DEVELOPER_DEFINED_PAYLOAD"
-              }              
-            ]      
+                  "type":"postback",
+                  "title":"Make Payment",
+                  "payload":"MAKE_PAYMENT"
+              },
+              {
+                  "type":"postback",
+                  "title":"Buy Ticket",
+                  "payload":"BUY_TICKET"
+              }
+          ]  
           }
         ]
       }
