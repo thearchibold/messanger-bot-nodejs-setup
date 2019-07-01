@@ -10,11 +10,14 @@ require("../helpers/functions")
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const SEND_API = process.env.SEND_API;
 
+console.log("Page token", PAGE_ACCESS_TOKEN)
+
 
 
 
 router.post('/', (request, response, next) => {
 
+  
   let body = request.body;
 
  // console.log("incoming request", body);
@@ -33,9 +36,11 @@ router.post('/', (request, response, next) => {
       if (webhook_event.message) {
         console.log(webhook_event.message)
         console.log("sending reply");
+        handleMessage(sender_psid, webhook_event.message);
       }
       else if (webhook_event.postback) {
         console.log(webhook_event.postback)
+        handlePostback(sender_psid, webhook_event.postback);
     }
       
 
@@ -53,7 +58,7 @@ router.post('/', (request, response, next) => {
 
 
 router.get('/', (req, res) => {
-
+  handleMessage();
   // Your verify token. Should be a random string.
   let VERIFY_TOKEN = process.env.VERIFY_TOKEN
     
@@ -81,6 +86,29 @@ router.get('/', (req, res) => {
   }
 });
 
+
+const handleMessage = (sender_psid, received_message) => {
+  console.log("calling handle message")
+  let response;
+
+  if (received_message.text) {
+
+  }
+}
+
+
+
+
+const handlePostback = (sender_psid, received_postback) => {
+  let response;
+
+  // Get the payload for the postback
+  let payload = received_postback.payload;
+
+  if(payload === 'GET_STARTED'){
+
+  }
+}
 
 
 module.exports = router
