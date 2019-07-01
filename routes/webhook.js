@@ -1,4 +1,6 @@
 const router = require('express').Router();
+var request = require("request");
+
 
 require('dotenv').config()
 
@@ -15,22 +17,47 @@ router.post('/', (request, response, next) => {
 
   let body = request.body;
 
-  console.log("incoming request", body);
+ // console.log("incoming request", body);
 
   //check this is an event from a page
   if (body.object === 'page') {
     body.entry.forEach(element => {
       console.log(element)
       let webhook_event = element.messaging[0];
-      console.log(webhook_event)
-
+     
 
       let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
       //messenger.handleMessage(sender_psid, webhook_event.message);
 
       if (webhook_event.message) {
-        handleMessage(sender_psid, webhook_event.message);
+        
+        console.log("sending response")
+
+
+        var options = { method: 'POST',
+        url: 'https://graph.facebook.com/v3.3/me/messages',
+        qs: { access_token: PAGE_ACCESS_TOKEN },
+        headers: 
+        { Connection: 'keep-alive',
+          'content-length': '119',
+          'accept-encoding': 'gzip, deflate',
+          Host: 'graph.facebook.com',
+          Accept: '*/*',
+          'Content-Type': 'application/json' },
+        body: 
+        { recipient: { id:  sender_psid},
+          message: 'Welcome home dear' },
+        json: true };
+
+      request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+
+        console.log(body);
+      });
+
+
+        //handleMessage(sender_psid, webhook_event.message);
     } else if (webhook_event.postback) {
         handlePostback(sender_psid, webhook_event.postback);
       }
@@ -93,20 +120,22 @@ const handleMessage = (sender_psid, received_message) => {
 const handlePostback = (sender_psid, received_postback) => {
   let response;
 
+  response = askTemplate('How would you like to get started?');
+        callSendAPI(sender_psid, response);
   // Get the payload for the postback
   let payload = received_postback.payload;
+  console.log(payload)
 
-  if(payload === 'GET_STARTED'){
-    let response;
+  // if(payload === 'GET_STARTED'){
+  //   let response;
  
-    // Get the payload for the postback
-    let payload = received_postback.payload;
+  //   // Get the payload for the postback
+  //   let payload = received_postback.payload;
  
-    if(payload === 'GET_STARTED'){
-        response = askTemplate('How would you like to get started?');
-        callSendAPI(sender_psid, response);
-    }
-  }
+  //   if(payload === 'GET_STARTED'){
+        
+  //   }
+  // }
 }
 
 
@@ -146,7 +175,7 @@ const callSendAPI = (sender_psid, response, cb = null) => {
 
   // Send the HTTP request to the Messenger Platform
   request({
-      "uri": "https://graph.facebook.com/v2.6/me/messages",
+      "uri": SEND_API,
       "qs": { "access_token": PAGE_ACCESS_TOKEN },
       "method": "POST",
       "json": request_body
