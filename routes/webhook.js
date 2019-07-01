@@ -130,7 +130,7 @@ const askTemplate = (text) => {
           "payload":{
             "template_type": "generic",
             "title": "MyTicketGH",
-            "image_url: "https://www.google.com.gh/imgres?imgurl=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1083472203574927360%2FAkozVAXY_400x400.jpg&imgrefurl=https%3A%2F%2Ftwitter.com%2Fmyticketgh&docid=yxk5DFGhjzctgM&tbnid=Bg48XMLuWn6jwM%3A&vet=10ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwhFKAcwBw..i&w=400&h=400&bih=604&biw=1366&q=myticketgh&ved=0ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwhFKAcwBw&iact=mrc&uact=8",
+            "image_url": "https://myticketgh.com/assets/images/logo.png",
               "text": text,
               "buttons":[
                   {
