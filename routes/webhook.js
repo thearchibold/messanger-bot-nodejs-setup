@@ -41,14 +41,13 @@ router.post('/', (req, res, next) => {
         console.log(webhook_event.message)
         console.log("sending reply");
         handleMessage(sender_psid, webhook_event.message);
+        res.sendStatus(200);
       }
       else if (webhook_event.postback) {
         console.log(webhook_event.postback)
         handlePostback(sender_psid, webhook_event.postback);
+        res.sendStatus(200);
     }
-      
-
-    res.status(200).send("EVENT_RECEIVED")
 
   } else {
     res.sendStatus(403)
