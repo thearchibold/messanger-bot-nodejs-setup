@@ -25,11 +25,13 @@ router.post('/', (req, res, next) => {
   //check this is an event from a page
   if (body.object === 'page') {
     let webhook_event;
-    body.entry.forEach(element => {
+
+    webhook_event = body.entry[0].messaging[0];
+    // body.entry.forEach(element => {
      
-      webhook_event = element.messaging[0];
+    //   webhook_event = element.messaging[0];
     
-    });
+    // });
 
     let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
@@ -212,7 +214,7 @@ const getStartedTemplate = () => {
         "elements":[
            {
             "title":"Welcome!",
-            "image_url":"https://petersfancybrownhats.com/company_image.png",
+            "image_url":"https://myticketgh.com/assets/images/logo.png",
             "subtitle":"What would you like to do today.",
             // "default_action": {
             //   "type": "web_url",
