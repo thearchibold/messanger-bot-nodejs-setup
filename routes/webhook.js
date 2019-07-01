@@ -22,7 +22,7 @@ router.post('/', (request, response, next) => {
   //check this is an event from a page
   if (body.object === 'page') {
     body.entry.forEach(element => {
-      console.log(element)
+     
       let webhook_event = element.messaging[0];
      
 
@@ -33,30 +33,7 @@ router.post('/', (request, response, next) => {
       if (webhook_event.message) {
         
         console.log("sending response")
-
-
-        var options = { method: 'POST',
-        url: 'https://graph.facebook.com/v3.3/me/messages',
-        qs: { access_token: PAGE_ACCESS_TOKEN },
-        headers: 
-        { Connection: 'keep-alive',
-          'content-length': '119',
-          'accept-encoding': 'gzip, deflate',
-          Host: 'graph.facebook.com',
-          Accept: '*/*',
-          'Content-Type': 'application/json' },
-        body: 
-        { recipient: { id:  sender_psid},
-          message: 'Welcome home dear' },
-        json: true };
-
-      request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-
-        console.log(body);
-      });
-
-
+       
         //handleMessage(sender_psid, webhook_event.message);
     } else if (webhook_event.postback) {
         handlePostback(sender_psid, webhook_event.postback);
@@ -104,93 +81,6 @@ router.get('/', (req, res) => {
     res.sendStatus(403)
   }
 });
-
-
-
-const handleMessage = (sender_psid, received_message) => {
-  let response;
-
-  if (received_message.text) {
-
-  }
-}
-
-
-
-const handlePostback = (sender_psid, received_postback) => {
-  let response;
-
-  response = askTemplate('How would you like to get started?');
-        callSendAPI(sender_psid, response);
-  // Get the payload for the postback
-  let payload = received_postback.payload;
-  console.log(payload)
-
-  // if(payload === 'GET_STARTED'){
-  //   let response;
- 
-  //   // Get the payload for the postback
-  //   let payload = received_postback.payload;
- 
-  //   if(payload === 'GET_STARTED'){
-        
-  //   }
-  // }
-}
-
-
-const askTemplate = (text) => {
-  return {
-      "attachment":{
-          "type":"template",
-          "payload":{
-              "template_type":"button",
-              "text": text,
-              "buttons":[
-                  {
-                      "type":"postback",
-                      "title":"Cats",
-                      "payload":"CAT_PICS"
-                  },
-                  {
-                      "type":"postback",
-                      "title":"Dogs",
-                      "payload":"DOG_PICS"
-                  }
-              ]
-          }
-      }
-  }
-}
-
-
-const callSendAPI = (sender_psid, response, cb = null) => {
-  // Construct the message body
-  let request_body = {
-      "recipient": {
-          "id": sender_psid
-      },
-      "message": response
-  };
-
-  // Send the HTTP request to the Messenger Platform
-  request({
-      "uri": SEND_API,
-      "qs": { "access_token": PAGE_ACCESS_TOKEN },
-      "method": "POST",
-      "json": request_body
-  }, (err, res, body) => {
-      if (!err) {
-          if(cb){
-              cb();
-          }
-      } else {
-          console.error("Unable to send message:" + err);
-      }
-  });
-}
-
-
 
 
 
