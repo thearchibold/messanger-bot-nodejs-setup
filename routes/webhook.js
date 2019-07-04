@@ -160,25 +160,25 @@ const askTemplate = (text) => {
 
 const buyTicketTemplate = (text) => {
   return {
-      "attachment":{
-          "type":"template",
-          "payload":{
-              "template_type":"button",
-              "text": text,
-              "buttons":[
-                  {
-                      "type":"postback",
-                      "title":"Accra",
-                      "payload":"ACCRA"
-                  },
-                  {
-                      "type":"postback",
-                      "title":"Kumasi",
-                      "payload":"KUMASI"
-                  }
-              ]
-          }
-      }
+    "messaging_type": "RESPONSE",
+    "message":{
+      "text": "Choose destination:",
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":"Accra",
+          "payload":"ACCRA",
+        },{
+          "content_type":"text",
+          "title":"Kumasi",
+          "payload":"KUMASI",
+        },{
+          "content_type":"text",
+          "title":"Takoradi",
+          "payload":"TAKORADI",
+        }
+      ]
+    }
   }
 }
 
