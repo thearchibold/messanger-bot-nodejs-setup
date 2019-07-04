@@ -122,7 +122,7 @@ const handlePostback = (sender_psid, received_postback) => {
   }
   if (payload === 'BUY_TICKET') {
     response = buyTicketTemplate('Please select your destination');
-    callSendAPI(sender_psid, response);    
+    callBuyTicketPostback(sender_psid);    
   }
 }
 
@@ -273,6 +273,51 @@ const callSendAPI = (sender_psid, response, cb = null) => {
   });
 }
 
+const callBuyTicketPostback = (sender_psid, cb = null) => {
+  console.log("calling buy ticket")
+  // Construct the message body
+  let request_body = {
+    "recipient":{
+      "id":sender_psid
+    },
+    "messaging_type": "RESPONSE",
+    "message":{
+      "text": "Select destination",
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":"Red",
+          "payload":"red",
+        },{
+          "content_type":"text",
+          "title":"Green",
+          "payload":"green",
+        }
+      ]
+    }
+  }
+  
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+      "uri": "https://graph.facebook.com/v3.0/me/messages" ,
+      "qs": { "access_token": PAGE_ACCESS_TOKEN },
+      "method": "POST",
+      "json": request_body
+  }, (err, res, body) => {
+      if (!err) {
+          if(cb){
+              cb();
+          }
+      } else {
+          console.error("Unable to send message:" + err);
+      }
+  });
+}
+
+
+
+ 
 
 // https://www.google.com.gh/imgres?imgurl=https%3A%2F%2Flookaside.fbsbx.com%2Flookaside%2Fcrawler%2Fmedia%2F%3Fmedia_id%3D877334128993545&imgrefurl=https%3A%2F%2Fwww.facebook.com%2Fmyticketgh%2F&docid=GD7vs2h-K2m1mM&tbnid=W4L7YMbh1BmzGM%3A&vet=10ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwg-KAAwAA..i&w=300&h=300&bih=604&biw=1366&q=myticketgh&ved=0ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwg-KAAwAA&iact=mrc&uact=8
 
