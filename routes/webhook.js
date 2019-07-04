@@ -160,7 +160,6 @@ const askTemplate = (text) => {
 
 const buyTicketTemplate = (text) => {
   return {
-    "messaging_type": "RESPONSE",
     "message":{
       "text": "Choose destination:",
       "quick_replies":[
@@ -252,7 +251,8 @@ const callSendAPI = (sender_psid, response, cb = null) => {
   let request_body = {
       "recipient": {
           "id": sender_psid
-      },
+    },
+    "messaging_type": "RESPONSE",
       "message": response
   };
 
