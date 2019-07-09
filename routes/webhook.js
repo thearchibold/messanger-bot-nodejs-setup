@@ -58,11 +58,12 @@ router.post('/', (req, res, next) => {
 
   //check this is an event from a page
   if (body.object === 'page') {
+    
     let webhook_event;
 
     //webhook_event = body.entry[0].messaging[0];
     body.entry.forEach(element => {
-     
+      console.log("page ID", element.id);     
       webhook_event = element.messaging[0];
        let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
@@ -286,7 +287,7 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
       "quick_replies":[
         {
           "content_type":"text",
-          "title":"Red",
+          "title":"Accra",
           "payload":"red",
         },{
           "content_type":"text",
