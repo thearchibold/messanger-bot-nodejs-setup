@@ -5,6 +5,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require("path");
 
 //routes import
 const webhook = require('./routes/webhook');
@@ -18,6 +19,9 @@ app.use(bodyParser.json());
 
 //route use
 app.use('/webhook', webhook);
+
+app.set('views',path.join(__dirname, 'views') )
+
 
 
 
