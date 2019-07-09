@@ -63,7 +63,8 @@ router.post('/', (req, res, next) => {
 
     //webhook_event = body.entry[0].messaging[0];
     body.entry.forEach(element => {
-      console.log("page ID", element.id);     
+      console.log("page ID", element.id); 
+      
       webhook_event = element.messaging[0];
        let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
@@ -116,14 +117,24 @@ const handlePostback = (sender_psid, received_postback) => {
       
     }
   
-  if (payload === 'MAKE_PAYMENT') {
+   else if (payload === 'MAKE_PAYMENT') {
     response = makePaymentTemplate('Please select your payment option');
     callSendAPI(sender_psid, response);
     
   }
-  if (payload === 'BUY_TICKET') {
+ else if (payload === 'BUY_TICKET') {
     response = buyTicketTemplate('Please select your destination');
     callBuyTicketPostback(sender_psid);    
+    }
+    else if (payload === 'MO_MO') {
+      console.log("sending momo payment page")
+      response = ticketWebView();
+      callSendAPI(sender_psid, response);
+    }
+    else if (payload === 'CREDIT_CARD') {
+      console.log("sending card payment page")
+      response = ticketWebView();
+      callSendAPI(sender_psid, response);
   }
 }
 
@@ -245,6 +256,25 @@ const getStartedTemplate = () => {
 }
 
 
+const ticketWebView = () => {
+  return {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "button",
+        text: "To buy ticket please click to start.",
+        buttons: [{
+          type: "web_url",
+          url: "https://google.com",
+          title: "Buy ticket here",
+          webview_height_ratio: "compact",
+          messenger_extensions: false
+        }]
+      }
+    }
+  }
+
+}
 
 // Sends response messages via the Send API
 const callSendAPI = (sender_psid, response, cb = null) => {
