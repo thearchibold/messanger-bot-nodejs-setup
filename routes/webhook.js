@@ -117,8 +117,9 @@ const handlePostback = (sender_psid, received_postback) => {
       
     }
   
-   else if (payload === 'MAKE_PAYMENT') {
-    response = makePaymentTemplate('Please select your payment option');
+   else if (payload === 'explore_event') {
+    //response = makePaymentTemplate('Please select your payment option');
+      response = getTicketCarouselTemplate();
     callSendAPI(sender_psid, response);
     
   }
@@ -239,14 +240,9 @@ const getStartedTemplate = () => {
             "buttons":[
               {
                 "type":"postback",
-                "title":"Make Payment",
-                "payload":"MAKE_PAYMENT"
-            },
-            {
-                "type":"postback",
-                "title":"Buy Ticket",
-                "payload":"BUY_TICKET"
-            }            
+                "title":"Explore events",
+                "payload":"explore_event"
+            }          
             ]      
           }
         ]
@@ -422,6 +418,228 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
 // https://www.google.com.gh/imgres?imgurl=https%3A%2F%2Flookaside.fbsbx.com%2Flookaside%2Fcrawler%2Fmedia%2F%3Fmedia_id%3D877334128993545&imgrefurl=https%3A%2F%2Fwww.facebook.com%2Fmyticketgh%2F&docid=GD7vs2h-K2m1mM&tbnid=W4L7YMbh1BmzGM%3A&vet=10ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwg-KAAwAA..i&w=300&h=300&bih=604&biw=1366&q=myticketgh&ved=0ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwg-KAAwAA&iact=mrc&uact=8
 
 
-
+const getTicketCarouselTemplate = () =>{
+  return {
+    "type": "carousel",
+    "padding": 10,
+    "elements": [
+      {
+            "type": "vertical",
+            "tag": "generic",
+            "elements": [{
+                "type": "vertical",
+                "elements": [{
+                    "type": "image",
+                    "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ_w8UO-QDbk2S2ZLuiuePHB7j6Qb86DLsjwddhp_yq4WaL_LL",
+                    "tooltip": "Flowers"
+                }, {
+                    "type": "text",
+                    "tag": "title",
+                    "text": "Title",
+                    "tooltip": "Title"
+                }, {
+                    "type": "text",
+                    "tag": "subtitle",
+                    "text": "subtitle",
+                    "tooltip": "subtitle"
+                }, {
+                    "type": "button",
+                    "tooltip": "Add to cart",
+                    "title": "Add to cart",
+                    "click": {
+                        "actions": [{
+                            "type": "publishText",
+                            "text": "Add to cart pressed"
+                        }]
+                    }
+                }, {
+                    "type": "button",
+                    "tooltip": "Add to cart",
+                    "title": "Add to cart",
+                    "click": {
+                        "actions": [{
+                            "type": "link",
+                            "name": "Flowers",
+                            "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
+                        }]
+                    }
+                }]
+            }]
+        },
+        {
+            "type": "vertical",
+            "tag": "generic",
+            "elements": [{
+                "type": "vertical",
+                "elements": [{
+                    "type": "image",
+                    "url": "https://i.pinimg.com/736x/cf/05/dc/cf05dc6becf9d387707597a788250a1c--blue-bridal-bouquets-bridal-flowers.jpg",
+                    "tooltip": "Flowers"
+                }, {
+                    "type": "text",
+                    "tag": "title",
+                    "text": "Title",
+                    "tooltip": "Title"
+                }, {
+                    "type": "text",
+                    "tag": "subtitle",
+                    "text": "subtitle",
+                    "tooltip": "subtitle"
+                }, {
+                    "type": "button",
+                    "tooltip": "Add to cart",
+                    "title": "Add to cart",
+                    "click": {
+                        "actions": [{
+                            "type": "publishText",
+                            "text": "Add to cart pressed"
+                        }]
+                    }
+                }, {
+                    "type": "button",
+                    "tooltip": "Add to cart",
+                    "title": "Add to cart",
+                    "click": {
+                        "actions": [{
+                            "type": "link",
+                            "name": "Flowers",
+                            "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
+                        }]
+                    }
+                }]
+            }]
+        },
+        {
+            "type": "vertical",
+            "tag": "generic",
+            "elements": [{
+                "type": "vertical",
+                "elements": [{
+                    "type": "image",
+                    "url": "https://i.pinimg.com/736x/27/9a/d7/279ad7bfd3fe7ee87638a5ce064d25a5---year-old-girl-cut-flowers.jpg",
+                    "tooltip": "Flowers"
+                }, {
+                    "type": "text",
+                    "tag": "title",
+                    "text": "Title",
+                    "tooltip": "Title"
+                }, {
+                    "type": "text",
+                    "tag": "subtitle",
+                    "text": "subtitle",
+                    "tooltip": "subtitle"
+                }, {
+                    "type": "button",
+                    "tooltip": "Add to cart",
+                    "title": "Add to cart",
+                    "click": {
+                        "actions": [{
+                            "type": "publishText",
+                            "text": "Add to cart pressed"
+                        }]
+                    }
+                }, {
+                    "type": "button",
+                    "tooltip": "Add to cart",
+                    "title": "Add to cart",
+                    "click": {
+                        "actions": [{
+                            "type": "link",
+                            "name": "Flowers",
+                            "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
+                        }]
+                    }
+                }]
+            }]
+        },
+        {
+            "type": "vertical",
+            "tag": "generic",
+            "elements": [{
+                "type": "vertical",
+                "elements": [{
+                    "type": "image",
+                    "url": "https://i.pinimg.com/736x/06/dc/b3/06dcb32c02c30a035b189ad267674f1c--pink-bouquet-floral-bouquets.jpg",
+                    "tooltip": "Flowers"
+                }, {
+                    "type": "text",
+                    "tag": "title",
+                    "text": "Title",
+                    "tooltip": "Title"
+                }, {
+                    "type": "text",
+                    "tag": "subtitle",
+                    "text": "subtitle",
+                    "tooltip": "subtitle"
+                }, {
+                    "type": "button",
+                    "tooltip": "Add to cart",
+                    "title": "Add to cart",
+                    "click": {
+                        "actions": [{
+                            "type": "publishText",
+                            "text": "Add to cart pressed"
+                        }]
+                    }
+                }, {
+                    "type": "button",
+                    "tooltip": "Add to cart",
+                    "title": "Add to cart",
+                    "click": {
+                        "actions": [{
+                            "type": "link",
+                            "name": "Flowers",
+                            "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
+                        }]
+                    }
+                }]
+            }]
+        },
+        {
+            "type": "vertical",
+            "tag": "generic",
+            "elements": [{
+                "type": "vertical",
+                "elements": [{
+                    "type": "image",
+                    "url": "https://i.pinimg.com/736x/a8/28/26/a8282621d4fe30717de5fab28975b7a3--pink-peonies-pink-flowers.jpg",
+                    "tooltip": "Flowers"
+                }, {
+                    "type": "text",
+                    "tag": "title",
+                    "text": "Title",
+                    "tooltip": "Title"
+                }, {
+                    "type": "text",
+                    "tag": "subtitle",
+                    "text": "subtitle",
+                    "tooltip": "subtitle"
+                }, {
+                    "type": "button",
+                    "tooltip": "Add to cart",
+                    "title": "Add to cart",
+                    "click": {
+                        "actions": [{
+                            "type": "publishText",
+                            "text": "Add to cart pressed"
+                        }]
+                    }
+                }, {
+                    "type": "button",
+                    "tooltip": "Add to cart",
+                    "title": "Add to cart",
+                    "click": {
+                        "actions": [{
+                            "type": "link",
+                            "name": "Flowers",
+                            "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
+                        }]
+                    }
+                }]
+            }]
+        }
+    ]
+}
+}
 
 module.exports = router
