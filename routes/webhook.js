@@ -99,7 +99,7 @@ router.post('/', (req, res, next) => {
 const handleMessage = (sender_psid, received_message) => {
   console.log("calling handle message");
   let response = "We will get  back to you later"
-  callSendAPI(sender_psid, response);
+  sendMessageReply(sender_psid, "Thanks for getting in touch, Please select any of the options above");
  
 }
 
@@ -136,7 +136,11 @@ const handlePostback = (sender_psid, received_postback) => {
       console.log("sending card payment page")
       response = ticketWebView();
       callSendAPI(sender_psid, response);
-  }
+    } else if (payload ==='buy_vip') {
+      sendMessageReply(sender_psid, "VIP ticket option selected. Please enter your mobile money number")
+  }else if (payload ==='buy_regular') {
+    sendMessageReply(sender_psid, "Regular ticket option selected. Please enter your mobile money number")
+}
 }
 
 
@@ -336,7 +340,32 @@ const ticketWebView = () => {
 
 //event ticket template
 
+const sendMessageReply = (psid, message) => {
+  let body = {
+    "recipient":{
+      "id":psid
+    },
+    "message":{
+      "text":message
+    }
+  }
 
+
+  request({
+    "uri": "https://graph.facebook.com/v3.0/me/messages" ,
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": body
+}, (err, res, body) => {
+    if (!err) {
+        if(cb){
+            cb();
+        }
+    } else {
+        console.error("Unable to send message:" + err);
+    }
+});
+}
 
 
 
@@ -384,45 +413,55 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
           "elements":[
              {
               "title":"Spider-man far from home",
-              "image_url":"https://petersfancybrownhats.com/company_image.png",
+              "image_url":"https://picsum.photos/300/200",
               "subtitle":"Get to watch the latest from the MCU.",
-              "default_action": {
-                "type": "web_url",
-                "url": "https://petersfancybrownhats.com/view?item=103",
-                "webview_height_ratio": "tall",
-              },
               "buttons":[
                 {
                   "type":"postback",
-                  "title":"Buy VIP",
+                  "title":"VIP - Ghs 150",
                   "payload":"buy_vip"
                 },
                 {
                   "type":"postback",
-                  "title":"Buy Reqular",
-                  "payload":"buy_vip"
+                  "title":"Reqular - Ghs 120",
+                  "payload":"buy_regular"
                 } 
               ]      
             },
             {
               "title":"Shazam",
-              "image_url":"https://petersfancybrownhats.com/company_image.png",
+              "image_url":"https://picsum.photos/300/200",
               "subtitle":"The movie everyone is talking about now",
-              "default_action": {
-                "type": "web_url",
-                "url": "https://petersfancybrownhats.com/view?item=103",
-                "webview_height_ratio": "tall",
-              },
+              
               "buttons":[
                 {
                   "type":"postback",
                   "title":"VIP - Ghs 100",
-                  "payload":"vip"
+                  "payload":"buy_vip"
                 },
                 {
                   "type":"postback",
                   "title":"Regular - Ghs 70",
-                  "payload":"regular"
+                  "payload":"rbuy_egular"
+                }
+              ]      
+            },
+
+            {
+              "title":"Little",
+              "image_url":"https://picsum.photos/300/200",
+              "subtitle":"How about your love for comedy? meet Regina Hall and her crew in the all new Little.",
+              
+              "buttons":[
+                {
+                  "type":"postback",
+                  "title":"VIP - Ghs 100",
+                  "payload":"buy_vip"
+                },
+                {
+                  "type":"postback",
+                  "title":"Regular - Ghs 70",
+                  "payload":"buy_regular"
                 }
               ]      
             }
@@ -453,8 +492,6 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
 
 
  
-
-// https://www.google.com.gh/imgres?imgurl=https%3A%2F%2Flookaside.fbsbx.com%2Flookaside%2Fcrawler%2Fmedia%2F%3Fmedia_id%3D877334128993545&imgrefurl=https%3A%2F%2Fwww.facebook.com%2Fmyticketgh%2F&docid=GD7vs2h-K2m1mM&tbnid=W4L7YMbh1BmzGM%3A&vet=10ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwg-KAAwAA..i&w=300&h=300&bih=604&biw=1366&q=myticketgh&ved=0ahUKEwipwcfA15XjAhUa5uAKHf-rCsgQMwg-KAAwAA&iact=mrc&uact=8
 
 
 const getTicketCarouselTemplate = () =>{
