@@ -120,7 +120,7 @@ const handlePostback = (sender_psid, received_postback) => {
    else if (payload === 'explore_event') {
     //response = makePaymentTemplate('Please select your payment option');
       response = getTicketCarouselTemplate();
-    callSendAPI(sender_psid, response);
+      callBuyTicketPostback(sender_psid);
     
   }
  else if (payload === 'BUY_TICKET') {
@@ -376,20 +376,59 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
     "recipient":{
       "id":sender_psid
     },
-    "messaging_type": "RESPONSE",
     "message":{
-      "text": "Select destination",
-      "quick_replies":[
-        {
-          "content_type":"text",
-          "title":"Accra",
-          "payload":"red",
-        },{
-          "content_type":"text",
-          "title":"Green",
-          "payload":"green",
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+             {
+              "title":"Spider-man far from home",
+              "image_url":"https://petersfancybrownhats.com/company_image.png",
+              "subtitle":"Get to watch the latest from the MCU.",
+              "default_action": {
+                "type": "web_url",
+                "url": "https://petersfancybrownhats.com/view?item=103",
+                "webview_height_ratio": "tall",
+              },
+              "buttons":[
+                {
+                  "type":"postback",
+                  "title":"Buy VIP",
+                  "payload":"buy_vip"
+                },
+                {
+                  "type":"postback",
+                  "title":"Buy Reqular",
+                  "payload":"buy_vip"
+                } 
+              ]      
+            },
+            {
+              "title":"Shazam",
+              "image_url":"https://petersfancybrownhats.com/company_image.png",
+              "subtitle":"The movie everyone is talking about now",
+              "default_action": {
+                "type": "web_url",
+                "url": "https://petersfancybrownhats.com/view?item=103",
+                "webview_height_ratio": "tall",
+              },
+              "buttons":[
+                {
+                  "type":"postback",
+                  "title":"VIP - Ghs 100",
+                  "payload":"vip"
+                },
+                {
+                  "type":"postback",
+                  "title":"Regular - Ghs 70",
+                  "payload":"regular"
+                }
+              ]      
+            }
+          ]
         }
-      ]
+      }
     }
   }
   
@@ -421,7 +460,6 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
 const getTicketCarouselTemplate = () =>{
   return {
     "type": "carousel",
-    "padding": 10,
     "elements": [
       {
             "type": "vertical",
@@ -431,178 +469,6 @@ const getTicketCarouselTemplate = () =>{
                 "elements": [{
                     "type": "image",
                     "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ_w8UO-QDbk2S2ZLuiuePHB7j6Qb86DLsjwddhp_yq4WaL_LL",
-                    "tooltip": "Flowers"
-                }, {
-                    "type": "text",
-                    "tag": "title",
-                    "text": "Title",
-                    "tooltip": "Title"
-                }, {
-                    "type": "text",
-                    "tag": "subtitle",
-                    "text": "subtitle",
-                    "tooltip": "subtitle"
-                }, {
-                    "type": "button",
-                    "tooltip": "Add to cart",
-                    "title": "Add to cart",
-                    "click": {
-                        "actions": [{
-                            "type": "publishText",
-                            "text": "Add to cart pressed"
-                        }]
-                    }
-                }, {
-                    "type": "button",
-                    "tooltip": "Add to cart",
-                    "title": "Add to cart",
-                    "click": {
-                        "actions": [{
-                            "type": "link",
-                            "name": "Flowers",
-                            "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
-                        }]
-                    }
-                }]
-            }]
-        },
-        {
-            "type": "vertical",
-            "tag": "generic",
-            "elements": [{
-                "type": "vertical",
-                "elements": [{
-                    "type": "image",
-                    "url": "https://i.pinimg.com/736x/cf/05/dc/cf05dc6becf9d387707597a788250a1c--blue-bridal-bouquets-bridal-flowers.jpg",
-                    "tooltip": "Flowers"
-                }, {
-                    "type": "text",
-                    "tag": "title",
-                    "text": "Title",
-                    "tooltip": "Title"
-                }, {
-                    "type": "text",
-                    "tag": "subtitle",
-                    "text": "subtitle",
-                    "tooltip": "subtitle"
-                }, {
-                    "type": "button",
-                    "tooltip": "Add to cart",
-                    "title": "Add to cart",
-                    "click": {
-                        "actions": [{
-                            "type": "publishText",
-                            "text": "Add to cart pressed"
-                        }]
-                    }
-                }, {
-                    "type": "button",
-                    "tooltip": "Add to cart",
-                    "title": "Add to cart",
-                    "click": {
-                        "actions": [{
-                            "type": "link",
-                            "name": "Flowers",
-                            "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
-                        }]
-                    }
-                }]
-            }]
-        },
-        {
-            "type": "vertical",
-            "tag": "generic",
-            "elements": [{
-                "type": "vertical",
-                "elements": [{
-                    "type": "image",
-                    "url": "https://i.pinimg.com/736x/27/9a/d7/279ad7bfd3fe7ee87638a5ce064d25a5---year-old-girl-cut-flowers.jpg",
-                    "tooltip": "Flowers"
-                }, {
-                    "type": "text",
-                    "tag": "title",
-                    "text": "Title",
-                    "tooltip": "Title"
-                }, {
-                    "type": "text",
-                    "tag": "subtitle",
-                    "text": "subtitle",
-                    "tooltip": "subtitle"
-                }, {
-                    "type": "button",
-                    "tooltip": "Add to cart",
-                    "title": "Add to cart",
-                    "click": {
-                        "actions": [{
-                            "type": "publishText",
-                            "text": "Add to cart pressed"
-                        }]
-                    }
-                }, {
-                    "type": "button",
-                    "tooltip": "Add to cart",
-                    "title": "Add to cart",
-                    "click": {
-                        "actions": [{
-                            "type": "link",
-                            "name": "Flowers",
-                            "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
-                        }]
-                    }
-                }]
-            }]
-        },
-        {
-            "type": "vertical",
-            "tag": "generic",
-            "elements": [{
-                "type": "vertical",
-                "elements": [{
-                    "type": "image",
-                    "url": "https://i.pinimg.com/736x/06/dc/b3/06dcb32c02c30a035b189ad267674f1c--pink-bouquet-floral-bouquets.jpg",
-                    "tooltip": "Flowers"
-                }, {
-                    "type": "text",
-                    "tag": "title",
-                    "text": "Title",
-                    "tooltip": "Title"
-                }, {
-                    "type": "text",
-                    "tag": "subtitle",
-                    "text": "subtitle",
-                    "tooltip": "subtitle"
-                }, {
-                    "type": "button",
-                    "tooltip": "Add to cart",
-                    "title": "Add to cart",
-                    "click": {
-                        "actions": [{
-                            "type": "publishText",
-                            "text": "Add to cart pressed"
-                        }]
-                    }
-                }, {
-                    "type": "button",
-                    "tooltip": "Add to cart",
-                    "title": "Add to cart",
-                    "click": {
-                        "actions": [{
-                            "type": "link",
-                            "name": "Flowers",
-                            "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
-                        }]
-                    }
-                }]
-            }]
-        },
-        {
-            "type": "vertical",
-            "tag": "generic",
-            "elements": [{
-                "type": "vertical",
-                "elements": [{
-                    "type": "image",
-                    "url": "https://i.pinimg.com/736x/a8/28/26/a8282621d4fe30717de5fab28975b7a3--pink-peonies-pink-flowers.jpg",
                     "tooltip": "Flowers"
                 }, {
                     "type": "text",
