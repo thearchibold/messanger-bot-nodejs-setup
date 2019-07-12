@@ -119,7 +119,7 @@ const handlePostback = (sender_psid, received_postback) => {
   
    else if (payload === 'explore_event') {
     //response = makePaymentTemplate('Please select your payment option');
-      response = getTicketCarouselTemplate();
+      //response = getTicketCarouselTemplate();
       callBuyTicketPostback(sender_psid);
     
   }
@@ -356,7 +356,7 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
             {
               "title": "Shazam",
               "subtitle": "From the DC world comes shazam",
-              "image_url": `https://picsum.photos/id/${Math.floor(Math.random() * 800)}/300/200`,          
+              "image_url": "https://picsum.photos/id/200/300/200",          
               "buttons": [
                 {
                   "title": "View details",
@@ -365,17 +365,13 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
                   "messenger_extensions": true,
                   "webview_height_ratio": "tall",
                   "fallback_url": "https://myticketgh.com"            
-                },
-                {
-                  "title": "Buy Ticket",
-                  "type": "postback",         
                 }
               ]
             },
             {
               "title": "Spiderman - Far from home",
               "subtitle": "Another classic from the Marvel Universe",
-              "image_url": `https://picsum.photos/id/${Math.floor(Math.random() * 800)}/300/200`,          
+              "image_url": "https://picsum.photos/id/220/300/200",          
               "buttons": [
                 {
                   "title": "View details",
@@ -384,17 +380,13 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
                   "messenger_extensions": true,
                   "webview_height_ratio": "tall",
                   "fallback_url": "https://myticketgh.com"            
-                },
-                {
-                  "title": "Buy Ticket",
-                  "type": "postback",         
                 }
               ]
             },
             {
               "title": "Spiderman - Into the spider verse",
               "subtitle": "Come watch young Miles save the multiverse",
-              "image_url": `https://picsum.photos/id/${Math.floor(Math.random() * 800)}/300/200`,          
+              "image_url": "https://picsum.photos/id/489/300/200",          
               "buttons": [
                 {
                   "title": "View details",
@@ -403,10 +395,6 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
                   "messenger_extensions": true,
                   "webview_height_ratio": "tall",
                   "fallback_url": "https://myticketgh.com"            
-                },
-                {
-                  "title": "Buy Ticket",
-                  "type": "postback",         
                 }
               ]
             },
