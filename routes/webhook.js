@@ -178,20 +178,16 @@ const askTemplate = (text) => {
 const buyTicketTemplate = (text) => {
   return {
     "message":{
-      "text": "Choose destination:",
+      "text": "Thank you for your time. You can always return to check an event out. Just click \"Explore Events\" to get started",
       "quick_replies":[
         {
           "content_type":"text",
-          "title":"Accra",
+          "title":"Done",
           "payload":"ACCRA",
         },{
           "content_type":"text",
-          "title":"Kumasi",
+          "title":"Explore Events",
           "payload":"KUMASI",
-        },{
-          "content_type":"text",
-          "title":"Takoradi",
-          "payload":"TAKORADI",
         }
       ]
     }
@@ -263,62 +259,7 @@ const ticketWebView = () => {
       "payload": {
         "template_type": "list",
         "top_element_style": "compact",
-        "elements": [
-          {
-            "title": "Classic T-Shirt Collection",
-            "subtitle": "See all our colors",
-            "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",          
-            "buttons": [
-              {
-                "title": "View",
-                "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/collection",
-                "messenger_extensions": true,
-                "webview_height_ratio": "tall",
-                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
-              }
-            ]
-          },
-          {
-            "title": "Classic White T-Shirt",
-            "subtitle": "See all our colors",
-            "default_action": {
-              "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-              "messenger_extensions": false,
-              "webview_height_ratio": "tall"
-            }
-          },
-          {
-            "title": "Classic Blue T-Shirt",
-            "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
-            "subtitle": "100% Cotton, 200% Comfortable",
-            "default_action": {
-              "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
-              "messenger_extensions": true,
-              "webview_height_ratio": "tall",
-              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-            },
-            "buttons": [
-              {
-                "title": "Shop Now",
-                "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
-                "messenger_extensions": true,
-                "webview_height_ratio": "tall",
-                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
-              }
-            ]        
-          }
-        ],
-         "buttons": [
-          {
-            "title": "View More",
-            "type": "postback",
-            "payload": "payload"            
-          }
-        ]  
+        "elements": []  
       }
 
 
@@ -405,67 +346,100 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
     "recipient":{
       "id":sender_psid
     },
-    "message":{
-      "attachment":{
-        "type":"template",
-        "payload":{
-          "template_type":"generic",
-          "elements":[
-             {
-              "title":"Spider-man far from home",
-              "image_url":"https://picsum.photos/300/200",
-              "subtitle":"Get to watch the latest from the MCU.",
-              "buttons":[
+    "message": {
+        "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "list",
+          "top_element_style": "compact",
+          "elements": [
+            {
+              "title": "Shazam",
+              "subtitle": "From the DC world comes shazam",
+              "image_url": `https://picsum.photos/id/${Math.floor(Math.random() * 800)}/300/200`,          
+              "buttons": [
                 {
-                  "type":"postback",
-                  "title":"VIP - Ghs 150",
-                  "payload":"buy_vip"
+                  "title": "View details",
+                  "type": "web_url",
+                  "url": "https://myticketgh.com",
+                  "messenger_extensions": true,
+                  "webview_height_ratio": "tall",
+                  "fallback_url": "https://myticketgh.com"            
                 },
                 {
-                  "type":"postback",
-                  "title":"Reqular - Ghs 120",
-                  "payload":"buy_regular"
-                } 
-              ]      
+                  "title": "Buy Ticket",
+                  "type": "postback",         
+                }
+              ]
             },
             {
-              "title":"Shazam",
-              "image_url":"https://picsum.photos/300/200",
-              "subtitle":"The movie everyone is talking about now",
-              
-              "buttons":[
+              "title": "Spiderman - Far from home",
+              "subtitle": "Another classic from the Marvel Universe",
+              "image_url": `https://picsum.photos/id/${Math.floor(Math.random() * 800)}/300/200`,          
+              "buttons": [
                 {
-                  "type":"postback",
-                  "title":"VIP - Ghs 100",
-                  "payload":"buy_vip"
+                  "title": "View details",
+                  "type": "web_url",
+                  "url": "https://myticketgh.com",
+                  "messenger_extensions": true,
+                  "webview_height_ratio": "tall",
+                  "fallback_url": "https://myticketgh.com"            
                 },
                 {
-                  "type":"postback",
-                  "title":"Regular - Ghs 70",
-                  "payload":"rbuy_egular"
+                  "title": "Buy Ticket",
+                  "type": "postback",         
                 }
-              ]      
+              ]
             },
-
             {
-              "title":"Little",
-              "image_url":"https://picsum.photos/300/200",
-              "subtitle":"How about your love for comedy? meet Regina Hall and her crew in the all new Little.",
-              
-              "buttons":[
+              "title": "Spiderman - Into the spider verse",
+              "subtitle": "Come watch young Miles save the multiverse",
+              "image_url": `https://picsum.photos/id/${Math.floor(Math.random() * 800)}/300/200`,          
+              "buttons": [
                 {
-                  "type":"postback",
-                  "title":"VIP - Ghs 100",
-                  "payload":"buy_vip"
+                  "title": "View details",
+                  "type": "web_url",
+                  "url": "https://myticketgh.com",
+                  "messenger_extensions": true,
+                  "webview_height_ratio": "tall",
+                  "fallback_url": "https://myticketgh.com"            
                 },
                 {
-                  "type":"postback",
-                  "title":"Regular - Ghs 70",
-                  "payload":"buy_regular"
+                  "title": "Buy Ticket",
+                  "type": "postback",         
                 }
-              ]      
+              ]
+            },
+            {
+              "title": "Classic Blue T-Shirt",
+              "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
+              "subtitle": "100% Cotton, 200% Comfortable",
+              "default_action": {
+                "type": "web_url",
+                "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
+                "messenger_extensions": true,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+              },
+              "buttons": [
+                {
+                  "title": "Take a look",
+                  "type": "web_url",
+                  "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
+                  "messenger_extensions": true,
+                  "webview_height_ratio": "tall",
+                  "fallback_url": "https://myticketgh.com"            
+                }
+              ]        
             }
-          ]
+          ],
+           "buttons": [
+            {
+              "title": "View More",
+              "type": "postback",
+              "payload": "payload"            
+            }
+          ]  
         }
       }
     }
