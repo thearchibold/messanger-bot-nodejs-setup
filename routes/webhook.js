@@ -359,66 +359,52 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
               "image_url": "https://picsum.photos/id/200/300/200",          
               "buttons": [
                 {
-                  "title": "View details",
+                  "title": "View Details",
                   "type": "web_url",
-                  "url": "https://myticketgh.com",
-                  "messenger_extensions": true,
-                  "webview_height_ratio": "tall",
-                  "fallback_url": "https://myticketgh.com"            
+                  "url": "https://google.com",
+                  "webview_height_ratio": "tall",          
                 }
               ]
             },
             {
-              "title": "Spiderman - Far from home",
+              "title": "Spiderman-Far from home",
               "subtitle": "Another classic from the Marvel Universe",
-              "image_url": "https://picsum.photos/id/220/300/200",          
+              "image_url": "https://picsum.photos/id/220/100/100",          
               "buttons": [
                 {
-                  "title": "View details",
+                  "title": "View Details",
                   "type": "web_url",
                   "url": "https://myticketgh.com",
-                  "messenger_extensions": true,
-                  "webview_height_ratio": "tall",
-                  "fallback_url": "https://myticketgh.com"            
+                  "webview_height_ratio": "tall",          
                 }
               ]
             },
             {
-              "title": "Spiderman - Into the spider verse",
+              "title": "Spiderman-Into the spider verse",
               "subtitle": "Come watch young Miles save the multiverse",
-              "image_url": "https://picsum.photos/id/489/300/200",          
+              "image_url": "https://picsum.photos/id/489/100/100",          
               "buttons": [
                 {
-                  "title": "View details",
+                  "title": "View Details",
                   "type": "web_url",
                   "url": "https://myticketgh.com",
-                  "messenger_extensions": true,
                   "webview_height_ratio": "tall",
-                  "fallback_url": "https://myticketgh.com"            
+          
                 }
               ]
             },
             {
-              "title": "Classic Blue T-Shirt",
-              "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
-              "subtitle": "100% Cotton, 200% Comfortable",
-              "default_action": {
-                "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
-                "messenger_extensions": true,
-                "webview_height_ratio": "tall",
-                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-              },
+              "title": "Shaft",
+              "image_url": "https://picsum.photos/id/220/100/100",
+              "subtitle": "Regina Hall",
               "buttons": [
                 {
-                  "title": "Take a look",
+                  "title": "View Details",
                   "type": "web_url",
-                  "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
-                  "messenger_extensions": true,
+                  "url": "https://google.com",
                   "webview_height_ratio": "tall",
-                  "fallback_url": "https://myticketgh.com"            
                 }
-              ]        
+              ]    
             }
           ],
            "buttons": [
@@ -445,6 +431,7 @@ const callBuyTicketPostback = (sender_psid, cb = null) => {
           if(cb){
               cb();
           }
+        console.log("Response message", res);
       } else {
           console.error("Unable to send message:" + err);
       }
