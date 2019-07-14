@@ -131,7 +131,10 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
     
       callBuyTicketPostback(sender_psid);
     
-  }
+    }
+  
+  
+    sendBotTyping(sender_psid, "typing_off");
 
 }
 
