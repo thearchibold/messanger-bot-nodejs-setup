@@ -269,7 +269,7 @@ const sendEvents = (sender_psid,events, cb = null) => {
         "payload": {
           "template_type": "list",
           "top_element_style": "compact",
-          "elements": events,
+          "elements": JSON.parse(events),
            "buttons": [
             {
               "title": "View More",
@@ -321,14 +321,13 @@ const fetchEvents = (pageId, psid) => {
       items.push({
         "title": item.name,
         "subtitle": item.category,
-        "image_url": item.banners[0],          
-        "buttons": [
-          {
-            "title": "View Details",
-            "type": "web_url",
-            "url": "https://google.com",
-            "webview_height_ratio": "tall",          
+        "image_url": item.banners[0],      
+        "default_action": {
+          "type": "web_url",
+          "url": "https://myticketgh.com",
+          "webview_height_ratio": "tall"
           },
+        "buttons": [
           {
             "title": "View Tickets",
             "type": "postback",
