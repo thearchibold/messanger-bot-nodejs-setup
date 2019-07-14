@@ -62,7 +62,7 @@ router.post('/', (req, res, next) => {
     let webhook_event;
 
     let event = getEvents("pageId");
-      console.log(event)
+      console.log("events for element tag", event)
     //webhook_event = body.entry[0].messaging[0];
     body.entry.forEach(element => {
       console.log("page ID", element.id); 
@@ -324,23 +324,27 @@ const getEvents = (pageId) => {
 
    request(options, function (error, response, body) {
    if (error) throw new Error(error);
-
-     console.log(body[0]);
-    //  body.forEach(item => {
-    //    element.push({
-    //     "title": `${item.id} - ${item.name}`,
-    //     "subtitle": item.category,
-    //     "image_url": item.banners[0],          
-    //     "buttons": [
-    //       {
-    //         "title": "View Details",
-    //         "type": "web_url",
-    //         "url": "https://google.com",
-    //         "webview_height_ratio": "tall",          
-    //       }
-    //     ]
-    //   })
-    //  })
+     let res = JSON.parse(body);
+     res.forEach(item => {
+       element.push({
+        "title": `${item.id} - ${item.name}`,
+        "subtitle": item.category,
+        "image_url": item.banners[0],          
+        "buttons": [
+          {
+            "title": "View Details",
+            "type": "web_url",
+            "url": "https://google.com",
+            "webview_height_ratio": "tall",          
+          },
+          {
+            "title": "View Ticket",
+            "type": "postback",
+            "payload":`event-${item.id}`         
+          }
+        ]
+      })
+     })
      return element
 });
 }
