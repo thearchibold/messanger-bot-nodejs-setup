@@ -190,7 +190,7 @@ const sendBotTyping = (sender_psid,typing_state, cb = null) => {
           if(cb){
               cb();
           }
-        console.log("Response message", res);
+       // console.log("Response message", res);
       } else {
           console.error("Unable to send message:" + err);
       }
@@ -272,9 +272,9 @@ const sendEvents = (sender_psid,events, cb = null) => {
           "elements": JSON.parse(events),
            "buttons": [
             {
-              "title": "View More",
+              "title": "Not Interested",
               "type": "postback",
-              "payload": "payload"            
+              "payload": "not_interested"            
             }
           ]  
         }
@@ -292,7 +292,7 @@ const sendEvents = (sender_psid,events, cb = null) => {
           if(cb){
               cb();
           }
-        console.log("Response message", res);
+       // console.log("Response message", res);
       } else {
           console.error("Unable to send message:" + err);
       }
@@ -311,7 +311,7 @@ const fetchEvents = (pageId, psid) => {
      'accept-encoding': 'gzip, deflate',
      Host: 'myticketgh.com',
      Accept: '*/*',
-     'User-Agent': 'PostmanRuntime/7.15.0' } };
+    } };
 
    request(options, function (error, response, body) {
    if (error) throw new Error(error);
