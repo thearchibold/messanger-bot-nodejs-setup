@@ -61,8 +61,8 @@ router.post('/', (req, res, next) => {
     
     let webhook_event;
 
-    let event = getEvents("pageId");
-      console.log("events for element tag", event)
+    getEvents("pageId");
+    
     //webhook_event = body.entry[0].messaging[0];
     body.entry.forEach(element => {
       console.log("page ID", element.id); 
@@ -311,7 +311,7 @@ const callBuyTicketPostback = (sender_psid,events, cb = null) => {
 
 
 const getEvents = (pageId) => {
-  let element = []
+  
   console.log(`Fetching events for ${pageId}`)
   var options = { method: 'GET',
   url: 'https://myticketgh.com/api/events',
@@ -325,8 +325,9 @@ const getEvents = (pageId) => {
    request(options, function (error, response, body) {
    if (error) throw new Error(error);
      let res = JSON.parse(body);
+     let items = []
      res.forEach(item => {
-       element.push({
+      items.push({
         "title": `${item.id} - ${item.name}`,
         "subtitle": item.category,
         "image_url": item.banners[0],          
@@ -345,7 +346,7 @@ const getEvents = (pageId) => {
         ]
       })
      })
-     return element
+     console.log("element for facebook ", items)
 });
 }
 
