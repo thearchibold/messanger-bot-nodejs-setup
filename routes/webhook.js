@@ -229,7 +229,7 @@ const sendMessageReply = (psid, message) => {
     } else {
         console.error("Unable to send message:" + err);
     }
-});
+})
 }
 
 
@@ -325,22 +325,22 @@ const getEvents = (pageId) => {
    request(options, function (error, response, body) {
    if (error) throw new Error(error);
 
-     console.log(body);
-     body.forEach(item => {
-       element.push({
-        "title": `${item.id} - ${item.name}`,
-        "subtitle": item.category,
-        "image_url": item.banners[0],          
-        "buttons": [
-          {
-            "title": "View Details",
-            "type": "web_url",
-            "url": "https://google.com",
-            "webview_height_ratio": "tall",          
-          }
-        ]
-      })
-     })
+     console.log(body[0]);
+    //  body.forEach(item => {
+    //    element.push({
+    //     "title": `${item.id} - ${item.name}`,
+    //     "subtitle": item.category,
+    //     "image_url": item.banners[0],          
+    //     "buttons": [
+    //       {
+    //         "title": "View Details",
+    //         "type": "web_url",
+    //         "url": "https://google.com",
+    //         "webview_height_ratio": "tall",          
+    //       }
+    //     ]
+    //   })
+    //  })
      return element
 });
 }
