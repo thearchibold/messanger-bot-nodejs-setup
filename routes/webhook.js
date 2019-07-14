@@ -269,7 +269,7 @@ const sendEvents = (sender_psid,events, cb = null) => {
         "payload": {
           "template_type": "list",
           "top_element_style": "compact",
-          "elements": JSON.parse(events),
+          "elements": events,
            "buttons": [
             {
               "title": "Not Interested",
