@@ -61,34 +61,28 @@ router.post('/', (req, res, next) => {
     
     let webhook_event;
 
-    getEvents("pageId");
     
     //webhook_event = body.entry[0].messaging[0];
     body.entry.forEach(element => {
+     
       console.log("page ID", element.id); 
 
-      
-
-
-      
       webhook_event = element.messaging[0];
+
        let sender_psid = webhook_event.sender.id;
      
-      console.log('Sender PSID: ' + sender_psid);
-      
-
-     
+      console.log('Sender PSID: ' + sender_psid);     
 
       if (webhook_event.message) {
         console.log(webhook_event.message.text);
 
         sendBotTyping(sender_psid, "typing_on");
-        handleMessage(sender_psid, webhook_event.message);
+        handleMessage(sender_psid, webhook_event.message, element.id);
         sendBotTyping(sender_psid, "typing_off");
        // res.status(200).send('EVENT_RECEIVED');
       }
       if (webhook_event.postback) {
-        console.log(webhook_event.postback)
+        console.log(webhook_event.postback);
 
         sendBotTyping(sender_psid, "typing_on");
         handlePostback(sender_psid, webhook_event.postback, element.id);
@@ -110,11 +104,11 @@ router.post('/', (req, res, next) => {
 
 
 
-const handleMessage = (sender_psid, received_message) => {
+const handleMessage = (sender_psid, received_message, pageId) => {
   console.log("calling handle message");
   let response = "We will get  back to you later"
   sendMessageReply(sender_psid, "Thanks for getting in touch, Please select any of the options above");
- 
+  fetchEvents(pageId, sender_psid);
 }
 
 
@@ -127,13 +121,12 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
     if(payload === 'GET_STARTED'){
       
       //fetch page event
-      
+      fetchEvents(pageId, sender_psid);
 
-      response = getStartedTemplate();
-      callSendAPI(sender_psid, response);
+      // response = getStartedTemplate();
+      // callSendAPI(sender_psid, response);
       
-    }
-  
+    }  
    else if (payload === 'explore_event') {
     
       callBuyTicketPostback(sender_psid);
@@ -263,7 +256,7 @@ const callSendAPI = (sender_psid, response, cb = null) => {
   });
 }
 
-const callBuyTicketPostback = (sender_psid,events, cb = null) => {
+const sendEvents = (sender_psid,events, cb = null) => {
   console.log("calling buy ticket")
   // Construct the message body
   let request_body = {
@@ -288,8 +281,6 @@ const callBuyTicketPostback = (sender_psid,events, cb = null) => {
       }
     }
   }
-  
-
   // Send the HTTP request to the Messenger Platform
   request({
       "uri": "https://graph.facebook.com/v3.0/me/messages" ,
@@ -310,7 +301,7 @@ const callBuyTicketPostback = (sender_psid,events, cb = null) => {
 
 
 
-const getEvents = (pageId) => {
+const fetchEvents = (pageId, psid) => {
   
   console.log(`Fetching events for ${pageId}`)
   var options = { method: 'GET',
@@ -328,7 +319,7 @@ const getEvents = (pageId) => {
      let items = []
      res.forEach(item => {
       items.push({
-        "title": `${item.id} - ${item.name}`,
+        "title": item.name,
         "subtitle": item.category,
         "image_url": item.banners[0],          
         "buttons": [
@@ -347,6 +338,8 @@ const getEvents = (pageId) => {
       })
      })
      console.log("element for facebook ", items)
+     console.log("sending events right after fetching")
+     sendEvents(psid, items);
 });
 }
 
