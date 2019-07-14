@@ -349,4 +349,4 @@ const getEvents = (pageId) => {
 
 
 
-module.exports = routerelement
+module.exports = router
