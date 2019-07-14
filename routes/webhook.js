@@ -330,14 +330,14 @@ const fetchEvents = (pageId, psid) => {
             "webview_height_ratio": "tall",          
           },
           {
-            "title": "View Ticket",
+            "title": "View Tickets",
             "type": "postback",
-            "payload":`event-${item.id}`         
+            "payload":`event_${item.id}`         
           }
         ]
       })
      })
-     console.log("element for facebook ", items)
+     console.log("element for facebook ", items[0])
      console.log("sending events right after fetching")
      sendEvents(psid, items);
 });
