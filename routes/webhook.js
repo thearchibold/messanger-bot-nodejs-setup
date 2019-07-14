@@ -61,9 +61,13 @@ router.post('/', (req, res, next) => {
     
     let webhook_event;
 
+    let event = getEvents("pageId");
+      console.log(event)
     //webhook_event = body.entry[0].messaging[0];
     body.entry.forEach(element => {
       console.log("page ID", element.id); 
+
+      
 
 
       
@@ -71,18 +75,21 @@ router.post('/', (req, res, next) => {
        let sender_psid = webhook_event.sender.id;
      
       console.log('Sender PSID: ' + sender_psid);
-      sendBotTyping(sender_psid, "typing_on");
+      
 
      
 
       if (webhook_event.message) {
         console.log(webhook_event.message.text);
-        
+
+        sendBotTyping(sender_psid, "typing_on");
         handleMessage(sender_psid, webhook_event.message);
+        sendBotTyping(sender_psid, "typing_off");
        // res.status(200).send('EVENT_RECEIVED');
       }
       if (webhook_event.postback) {
         console.log(webhook_event.postback)
+
         sendBotTyping(sender_psid, "typing_on");
         handlePostback(sender_psid, webhook_event.postback, element.id);
         sendBotTyping(sender_psid, "typing_off");
@@ -113,13 +120,14 @@ const handleMessage = (sender_psid, received_message) => {
 
 
 
-const handlePostback = (sender_psid, received_postback) => {
+const handlePostback = (sender_psid, received_postback, pageId) => {
 
   let payload = received_postback.payload;
  
     if(payload === 'GET_STARTED'){
       
       //fetch page event
+      
 
       response = getStartedTemplate();
       callSendAPI(sender_psid, response);
@@ -304,5 +312,41 @@ const callBuyTicketPostback = (sender_psid,events, cb = null) => {
 
 
 
+const getEvents = (pageId) => {
+  let element = []
+  console.log(`Fetching events for ${pageId}`)
+  var options = { method: 'GET',
+  url: 'https://myticketgh.com/api/events',
+  headers: 
+   { Connection: 'keep-alive',
+     'accept-encoding': 'gzip, deflate',
+     Host: 'myticketgh.com',
+     Accept: '*/*',
+     'User-Agent': 'PostmanRuntime/7.15.0' } };
 
-module.exports = router
+   request(options, function (error, response, body) {
+   if (error) throw new Error(error);
+
+     console.log(body);
+     body.forEach(item => {
+       element.push({
+        "title": `${item.id} - ${item.name}`,
+        "subtitle": item.category,
+        "image_url": item.banners[0],          
+        "buttons": [
+          {
+            "title": "View Details",
+            "type": "web_url",
+            "url": "https://google.com",
+            "webview_height_ratio": "tall",          
+          }
+        ]
+      })
+     })
+     return element
+});
+}
+
+
+
+module.exports = routerelement
