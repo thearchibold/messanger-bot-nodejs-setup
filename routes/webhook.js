@@ -225,9 +225,7 @@ const sendMessageReply = (psid, message) => {
     "json": body
 }, (err, res, body) => {
     if (!err) {
-        if(cb){
-            cb();
-        }
+        
     } else {
         console.error("Unable to send message:" + err);
     }
