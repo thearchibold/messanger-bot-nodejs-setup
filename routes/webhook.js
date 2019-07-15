@@ -270,16 +270,8 @@ const sendEvents = (sender_psid,events, cb = null) => {
         "attachment": {
         "type": "template",
         "payload": {
-          "template_type": "list",
-          "top_element_style": "compact",
-          "elements": events,
-           "buttons": [
-            {
-              "title": "Not Interested",
-              "type": "postback",
-              "payload": "not_interested"            
-            }
-          ]  
+          "template_type": "generic",
+          "elements": events 
         }
       }
     }
