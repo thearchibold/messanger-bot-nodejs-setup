@@ -106,7 +106,7 @@ router.post('/', (req, res, _next) => {
 
 const handleMessage = (sender_psid, _received_message, _pageId) => {
   console.log("calling handle message");
-  let message = 'Sorry 🤭, we could figure out what you wanted but would you like to...'
+  let message = "Sorry 🤭, we could figure out what you wanted but would you like to..."
   handleMessageUnknown(sender_psid, message);
   //sendMessageReply(sender_psid, "Thanks for getting in touch, Please select any of the options below");
   //fetchEvents(pageId, sender_psid);
@@ -121,7 +121,7 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
  
     if(payload === 'GET_STARTED'){
       
-      let message = 'Hello 🤩!!!,  '
+      let message = "Hello 🤩!!!"
   handleMessageUnknown(sender_psid, message);
       
     }  
