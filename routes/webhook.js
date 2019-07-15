@@ -106,9 +106,10 @@ router.post('/', (req, res, next) => {
 
 const handleMessage = (sender_psid, received_message, pageId) => {
   console.log("calling handle message");
-  let response = "We will get  back to you later"
-  sendMessageReply(sender_psid, "Thanks for getting in touch, Please select any of the options above");
-  fetchEvents(pageId, sender_psid);
+  let message = 'Sorry 🤭, we could figure out what you wanted but would you like to...'
+  handleMessageUnknown(sender_psid, message);
+  //sendMessageReply(sender_psid, "Thanks for getting in touch, Please select any of the options above");
+  //fetchEvents(pageId, sender_psid);
 }
 
 
@@ -130,8 +131,16 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
    else if (payload === 'explore_event') {
     
       callBuyTicketPostback(sender_psid);
-    
+      sendBotTyping(sender_psid, "typing_off");
     }
+    else if (payload === "explore") {
+      fetchEvents(pageId, sender_psid);
+    }
+    else if (payload === "end") {
+      let message = 'Thank you for your time 🤝. Always get started by 👇...'
+      handleMessageUnknown(sender_psid, message);
+      sendBotTyping(sender_psid, "typing_off");
+  }
   
   
     sendBotTyping(sender_psid, "typing_off");
@@ -335,6 +344,42 @@ const fetchEvents = (pageId, psid) => {
      console.log("sending events right after fetching")
      sendEvents(psid, items);
 });
+}
+
+
+
+const handleMessageUnknown = (psid, message) => {
+
+var options = { method: 'POST',
+  url: 'https://graph.facebook.com/v3.0/me/messages',
+  url: 'https://myticketgh.com/api/events',
+  headers:
+  {
+    Connection: 'keep-alive',
+    'accept-encoding': 'gzip, deflate',
+    Host: 'myticketgh.com',
+    Accept: '*/*',
+  },
+  body: 
+   { recipient: { id: psid },
+     messaging_type: 'RESPONSE',
+     message: 
+      { text: message,
+        quick_replies: 
+         [ { content_type: 'text',
+             title: 'Not interested 😢',
+             payload: 'end' },
+           { content_type: 'text',
+             title: 'Explore events 💪',
+             payload: 'explore' } ] } },
+  json: true };
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
 }
 
 
