@@ -347,9 +347,10 @@ const fetchEvents = (pageId, psid) => {
 
 const handleMessageUnknown = (psid, message) => {
 
-var options = { method: 'POST',
-  url: 'https://graph.facebook.com/v3.0/me/messages',
-  url: 'https://myticketgh.com/api/events',
+  var options = {
+      "uri": "https://graph.facebook.com/v3.0/me/messages" ,
+      "qs": { "access_token": PAGE_ACCESS_TOKEN },
+      "method": "POST",
   headers:
   {
     Connection: 'keep-alive',
