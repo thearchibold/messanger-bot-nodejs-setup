@@ -48,7 +48,7 @@ router.get('/', (req, res) => {
 
 
 
-router.post('/', (req, res, next) => {
+router.post('/', (req, res, _next) => {
 
   
   let body = req.body;
@@ -104,11 +104,11 @@ router.post('/', (req, res, next) => {
 
 
 
-const handleMessage = (sender_psid, received_message, pageId) => {
+const handleMessage = (sender_psid, _received_message, _pageId) => {
   console.log("calling handle message");
   let message = 'Sorry 🤭, we could figure out what you wanted but would you like to...'
   handleMessageUnknown(sender_psid, message);
-  //sendMessageReply(sender_psid, "Thanks for getting in touch, Please select any of the options above");
+  //sendMessageReply(sender_psid, "Thanks for getting in touch, Please select any of the options below");
   //fetchEvents(pageId, sender_psid);
 }
 
@@ -121,11 +121,8 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
  
     if(payload === 'GET_STARTED'){
       
-      //fetch page event
-      fetchEvents(pageId, sender_psid);
-
-      // response = getStartedTemplate();
-      // callSendAPI(sender_psid, response);
+      let message = 'Hello 🤩!!!,  '
+  handleMessageUnknown(sender_psid, message);
       
     }  
    else if (payload === 'explore_event') {
@@ -197,7 +194,7 @@ const sendBotTyping = (sender_psid,typing_state, cb = null) => {
       "qs": { "access_token": PAGE_ACCESS_TOKEN },
       "method": "POST",
       "json": request_body
-  }, (err, res, body) => {
+  }, (err, _res, _body) => {
       if (!err) {
           if(cb){
               cb();
@@ -228,7 +225,7 @@ const sendMessageReply = (psid, message) => {
     "qs": { "access_token": PAGE_ACCESS_TOKEN },
     "method": "POST",
     "json": body
-}, (err, res, body) => {
+}, (err, _res, _body) => {
     if (!err) {
         
     } else {
@@ -257,7 +254,7 @@ const callSendAPI = (sender_psid, response, cb = null) => {
       "qs": { "access_token": PAGE_ACCESS_TOKEN },
       "method": "POST",
       "json": request_body
-  }, (err, res, body) => {
+  }, (err, _res, _body) => {
       if (!err) {
           if(cb){
               cb();
@@ -291,7 +288,7 @@ const sendEvents = (sender_psid,events, cb = null) => {
       "qs": { "access_token": PAGE_ACCESS_TOKEN },
       "method": "POST",
       "json": request_body
-  }, (err, res, body) => {
+  }, (err, _res, _body) => {
       if (!err) {
           if(cb){
               cb();
@@ -317,7 +314,7 @@ const fetchEvents = (pageId, psid) => {
      Accept: '*/*',
     } };
 
-   request(options, function (error, response, body) {
+   request(options, function (error, _response, body) {
    if (error) throw new Error(error);
      let res = JSON.parse(body);
      let items = []
@@ -374,7 +371,7 @@ var options = { method: 'POST',
              payload: 'explore' } ] } },
   json: true };
 
-request(options, function (error, response, body) {
+request(options, function (error, _response, body) {
   if (error) throw new Error(error);
 
   console.log(body);
