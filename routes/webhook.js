@@ -347,37 +347,37 @@ const fetchEvents = (pageId, psid) => {
 
 const handleMessageUnknown = (psid, message) => {
 
-  var options = {
-      "uri": "https://graph.facebook.com/v3.0/me/messages" ,
-      "qs": { "access_token": PAGE_ACCESS_TOKEN },
-      "method": "POST",
-  headers:
-  {
-    Connection: 'keep-alive',
-    'accept-encoding': 'gzip, deflate',
-    Host: 'myticketgh.com',
-    Accept: '*/*',
-  },
-  body: 
-   { recipient: { id: psid },
-     messaging_type: 'RESPONSE',
-     message: 
-      { text: message,
-        quick_replies: 
-         [ { content_type: 'text',
-             title: 'Not interested 😢',
-             payload: 'end' },
-           { content_type: 'text',
-             title: 'Explore events 💪',
-             payload: 'explore' } ] } },
-  json: true };
 
-request(options, function (error, _response, body) {
-  if (error) throw new Error(error);
-
-  console.log(body);
-});
-
+  var options = { method: 'POST',
+    url: 'https://graph.facebook.com/v3.0/me/messages',
+    qs: { access_token: PAGE_ACCESS_TOKEN},
+    headers: 
+     { Connection: 'keep-alive',
+       'content-length': '438',
+       'accept-encoding': 'gzip, deflate',
+       Host: 'graph.facebook.com',
+       Accept: '*/*',
+       'User-Agent': 'PostmanRuntime/7.15.0',
+       'Content-Type': 'application/json' },
+    body: 
+     { recipient: { id: psid },
+       messaging_type: 'RESPONSE',
+       message:message,
+          quick_replies: 
+           [ { content_type: 'text',
+               title: 'Not interested 😢',
+               payload: 'end' },
+             { content_type: 'text',
+               title: 'Explore events 💪🥳',
+               payload: 'explore' } ] } },
+    json: true };
+  
+  request(options, function (error, response, body) {
+    if (error) throw new Error(error);
+  
+    console.log(body);
+  });
+  
 }
 
 
