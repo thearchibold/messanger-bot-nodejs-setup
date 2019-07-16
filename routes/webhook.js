@@ -144,6 +144,9 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
     else if (getEventPostBack(payload)[0] === "event") {
       fetchTicket(pageId, sender_psid, getEventPostBack(payload)[1]);
     }
+    else if (getTicketPostBack(payload[0] === "ticket")) {
+      callSendAPI(sender_psid, "Thank you for your choice we will get back to you shortly...");
+  }
   
   
     sendBotTyping(sender_psid, "typing_off");
@@ -364,13 +367,14 @@ const fetchTicket = (pageId, psid, slug) => {
 
      //console.log("Tickets for events ", res.schedules[0].tickets);
      let items = []
-     res.schedules[0].tickets.forEach(item => {
+     let {date, time, tickets} =res.schedules[0]
+     tickets.forEach(item => {
       items.push({
         "title": item.name,
         "subtitle": `${item.venue}
                     \nPrice - ${item.price}  
-                    \nDate  - ${res.schedules[0].date} 
-                    \nTime  - ${res.schedules[0].time}`,      
+                    \nDate  - ${date} 
+                    \nTime  - ${time}`,      
         "buttons": [
           {
             "title": "Buy Ticket",
@@ -434,5 +438,9 @@ function getEventPostBack(postback) {
   return [type, slug] = postback.split("_");
 }
 
+function getTicketPostBack(postback) { 
+  console.log(postback.indexOf("ticket") > - 1)
+  return [type, slug] = postback.split("_");
+}
 
 module.exports = router
