@@ -41,5 +41,14 @@ const handleMessageUnknown = (psid, message) => {
   
 }
 
-let message = ` 🤝 . Always get started by 👇...`
-handleMessageUnknown(2333191926726881, message);
+// let message = ` 🤝 . Always get started by 👇...`
+// handleMessageUnknown(2333191926726881, message);
+
+
+function getEventPostBack(postback = 'event_laughline-1') {
+ 
+  console.log(postback.indexOf("event") > - 1)
+  return [type, slug] = postback.split("_");
+}
+
+console.log(`https://google.com/${getEventPostBack()[1]}`)

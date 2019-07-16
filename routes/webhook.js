@@ -141,6 +141,9 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
       handleMessageUnknown(sender_psid, message);
       sendBotTyping(sender_psid, "typing_off");
     }
+    else if (getEventPostBack(payload)[0] === "event") {
+      fetchTicket(pageId, sender_psid, getEventPostBack(payload)[1]);
+    }
   
   
     sendBotTyping(sender_psid, "typing_off");
@@ -324,18 +327,13 @@ const fetchEvents = (pageId, psid) => {
      res.forEach(item => {
       items.push({
         "title": item.name,
-        "subtitle": item.category,
-        "image_url": item.banners[0],      
-        "default_action": {
-          "type": "web_url",
-          "url": "https://myticketgh.com",
-          "webview_height_ratio": "tall"
-          },
+        "subtitle": `${item.category} - ${item.day} ${item.month}`,
+        "image_url": item.banners[0],       
         "buttons": [
           {
             "title": "View Tickets",
             "type": "postback",
-            "payload":`event_${item.id}`         
+            "payload":`event_${item.slug}`         
           }
         ]
       })
@@ -348,6 +346,47 @@ const fetchEvents = (pageId, psid) => {
 
 
 
+const fetchTicket = (pageId, psid, slug) => {
+
+  console.log(`Fetching events for ${pageId}`)
+  var options = { method: 'GET',
+  url: `https://myticketgh.com/api/events/${slug}`,
+  headers: 
+   { Connection: 'keep-alive',
+     'accept-encoding': 'gzip, deflate',
+     Host: 'myticketgh.com',
+     Accept: '*/*',
+    } };
+
+   request(options, function (error, _response, body) {
+   if (error) throw new Error(error);
+     let res = JSON.parse(body);
+
+     console.log("Tickets for events ", res.schedules[0].tickets);
+    //  let items = []
+    //  res.forEach(item => {
+    //   items.push({
+    //     "title": item.name,
+    //     "subtitle": `${item.category} - ${item.day} ${item.month}`,
+    //     "image_url": item.banners[0],       
+    //     "buttons": [
+    //       {
+    //         "title": "Buy ",
+    //         "type": "postback",
+    //         "payload":`event_${item.slug}`         
+    //       }
+    //     ]
+    //   })
+    //  })
+    //  console.log("element for facebook ", items[0])
+    //  console.log("sending events right after fetching")
+    //  sendEvents(psid, items);
+});
+  
+}
+
+
+
 const handleMessageUnknown = (psid, message) => {
   var options = {
     "uri": "https://graph.facebook.com/v3.0/me/messages",
@@ -356,7 +395,7 @@ const handleMessageUnknown = (psid, message) => {
     "json": {
       "recipient": { id: psid },
       "message":{
-    "attachment":{
+      "attachment":{
       "type":"template",
       "payload":{
         "template_type":"button",
@@ -386,6 +425,12 @@ const handleMessageUnknown = (psid, message) => {
   
 }
 
+
+
+function getEventPostBack(postback) { 
+  console.log(postback.indexOf("event") > - 1)
+  return [type, slug] = postback.split("_");
+}
 
 
 module.exports = router
