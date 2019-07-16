@@ -363,24 +363,23 @@ const fetchTicket = (pageId, psid, slug) => {
      let res = JSON.parse(body);
 
      console.log("Tickets for events ", res.schedules[0].tickets);
-    //  let items = []
-    //  res.forEach(item => {
-    //   items.push({
-    //     "title": item.name,
-    //     "subtitle": `${item.category} - ${item.day} ${item.month}`,
-    //     "image_url": item.banners[0],       
-    //     "buttons": [
-    //       {
-    //         "title": "Buy ",
-    //         "type": "postback",
-    //         "payload":`event_${item.slug}`         
-    //       }
-    //     ]
-    //   })
-    //  })
-    //  console.log("element for facebook ", items[0])
-    //  console.log("sending events right after fetching")
-    //  sendEvents(psid, items);
+     let items = []
+     res.schedules[0].tickets.forEach(item => {
+      items.push({
+        "title": item.name,
+        "subtitle": `${item.venue}\nPrice:${item.price}  Date:${item.day} ${item.month}`,      
+        "buttons": [
+          {
+            "title": "Buy Ticket",
+            "type": "postback",
+            "payload":`ticket_${item.slug}`         
+          }
+        ]
+      })
+     })
+     console.log("element for facebook ", items[0])
+     console.log("sending events right after fetching")
+     sendEvents(psid, items);
 });
   
 }
