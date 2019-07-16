@@ -10,20 +10,25 @@ const handleMessageUnknown = (psid, message) => {
     "method": "POST",
     "json": {
       recipient: { id: psid },
-      messaging_type: 'RESPONSE',
-      message: {
-        text: message,
-        quick_replies:
-          [{
-            content_type: 'text',
-            title: 'Not interested 😢',
-            payload: 'end'
-          },
-          {
-            content_type: 'text',
-            title: 'Explore events 💪🥳',
-            payload: 'explore'
-          }]
+      "message":{
+        "attachment":{
+          "type":"template",
+          "payload":{
+            "template_type":"button",
+            "text": "Sorry 🤭, we could figure out what you wanted but would you like to...",
+            "buttons":[
+              {
+            "type":"postback",
+            "title":"Not interested 😢",
+            "payload":"end"
+          },{
+            "type":"postback",
+            "title":"Explore events 💪🥳",
+            "payload":"explore"
+          }
+            ]
+          }
+        }
       }
     }
   };
@@ -36,7 +41,5 @@ const handleMessageUnknown = (psid, message) => {
   
 }
 
-let message = ` 🤝 Thank you for your time. Always get started by 👇...`
-
-console.log(message.indexOf("Thank"));
-// handleMessageUnknown(2333191926726881, message);
+let message = ` 🤝 . Always get started by 👇...`
+handleMessageUnknown(2333191926726881, message);

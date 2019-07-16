@@ -106,8 +106,9 @@ router.post('/', (req, res, _next) => {
 
 const handleMessage = (sender_psid, _received_message, _pageId) => {
   console.log("calling handle message");
-  let message = "Sorry 🤭, we could figure out what you wanted but would you like to..."
+  let message = "Sorry 🤭, we could'nt figure out what you want,  but would you like to..."
   handleMessageUnknown(sender_psid, message);
+
   //sendMessageReply(sender_psid, "Thanks for getting in touch, Please select any of the options below");
   //fetchEvents(pageId, sender_psid);
 }
@@ -353,22 +354,27 @@ const handleMessageUnknown = (psid, message) => {
     "qs": { "access_token": PAGE_ACCESS_TOKEN },
     "method": "POST",
     "json": {
-      recipient: { id: psid },
-      messaging_type: 'RESPONSE',
-      message: {
-        text: message,
-        quick_replies:
-          [{
-            content_type: 'text',
-            title: 'Not interested 😢',
-            payload: 'end'
-          },
+      "recipient": { id: psid },
+      "message":{
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text": message,
+        "buttons":[
           {
-            content_type: 'text',
-            title: 'Explore events 💪🥳',
-            payload: 'explore'
-          }]
+        "type":"postback",
+        "title":"Not interested 😢",
+        "payload":"end"
+      },{
+        "type":"postback",
+        "title":"Explore events 💪🥳",
+        "payload":"explore"
       }
+        ]
+      }
+    }
+  }
     }
   };
   
