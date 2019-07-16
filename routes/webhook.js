@@ -144,7 +144,7 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
     else if (getEventPostBack(payload)[0] === "event") {
       fetchTicket(pageId, sender_psid, getEventPostBack(payload)[1]);
     }
-    else if (getTicketPostBack(payload[0] === "ticket")) {
+    else if (getTicketPostBack(payload)[0] === "ticket") {
       callSendAPI(sender_psid, "Thank you for your choice we will get back to you shortly...");
   }
   
