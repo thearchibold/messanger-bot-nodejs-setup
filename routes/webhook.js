@@ -121,8 +121,8 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
  
     if(payload === 'GET_STARTED'){
       
-      let message = "Hello 🤩!!!"
-  handleMessageUnknown(sender_psid, message);
+      let message = "Hello 🤩!!!";
+      handleMessageUnknown(sender_psid, message);
       
     }  
    else if (payload === 'explore_event') {
@@ -132,12 +132,14 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
     }
     else if (payload === "explore") {
       fetchEvents(pageId, sender_psid);
+      sendBotTyping(sender_psid, "typing_off");
+
     }
     else if (payload === "end") {
-      let message = 'Thank you for your time 🤝. Always get started by 👇...'
+      let message = "Thank you for your time 🤝. Always get started by 👇..."
       handleMessageUnknown(sender_psid, message);
       sendBotTyping(sender_psid, "typing_off");
-  }
+    }
   
   
     sendBotTyping(sender_psid, "typing_off");
@@ -346,8 +348,6 @@ const fetchEvents = (pageId, psid) => {
 
 
 const handleMessageUnknown = (psid, message) => {
-
-
   var options = {
     "uri": "https://graph.facebook.com/v3.0/me/messages",
     "qs": { "access_token": PAGE_ACCESS_TOKEN },
@@ -355,18 +355,20 @@ const handleMessageUnknown = (psid, message) => {
     "json": {
       recipient: { id: psid },
       messaging_type: 'RESPONSE',
-      message: message,
-      quick_replies:
-        [{
-          content_type: 'text',
-          title: 'Not interested 😢',
-          payload: 'end'
-        },
-        {
-          content_type: 'text',
-          title: 'Explore events 💪🥳',
-          payload: 'explore'
-        }]
+      message: {
+        text: message,
+        quick_replies:
+          [{
+            content_type: 'text',
+            title: 'Not interested 😢',
+            payload: 'end'
+          },
+          {
+            content_type: 'text',
+            title: 'Explore events 💪🥳',
+            payload: 'explore'
+          }]
+      }
     }
   };
   
