@@ -370,7 +370,7 @@ const fetchTicket = (pageId, psid, slug) => {
      let {date, time, tickets} =res.schedules[0]
      tickets.forEach(item => {
       items.push({
-        "title": item.name,
+        "title": `${res.name}  ${item.name}`,
         "subtitle": `${item.venue}
                     \nPrice - ${item.price}  
                     \nDate  - ${String(tickets)} 
