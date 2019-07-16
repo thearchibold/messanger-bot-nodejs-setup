@@ -373,8 +373,8 @@ const fetchTicket = (pageId, psid, slug) => {
         "title": item.name,
         "subtitle": `${item.venue}
                     \nPrice - ${item.price}  
-                    \nDate  - ${date} 
-                    \nTime  - ${time}`,      
+                    \nDate  - ${String(tickets)} 
+                    \nTime  - ${String(time)}`,      
         "buttons": [
           {
             "title": "Buy Ticket",
