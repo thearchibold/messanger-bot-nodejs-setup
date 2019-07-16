@@ -362,12 +362,15 @@ const fetchTicket = (pageId, psid, slug) => {
    if (error) throw new Error(error);
      let res = JSON.parse(body);
 
-     console.log("Tickets for events ", res.schedules[0].tickets);
+     //console.log("Tickets for events ", res.schedules[0].tickets);
      let items = []
      res.schedules[0].tickets.forEach(item => {
       items.push({
         "title": item.name,
-        "subtitle": `${item.venue}\nPrice:${item.price}  Date:${item.day} ${item.month}`,      
+        "subtitle": `${item.venue}
+                    \nPrice - ${item.price}  
+                    \nDate  - ${res.schedules[0].date} 
+                    \nTime  - ${res.schedules[0].time}`,      
         "buttons": [
           {
             "title": "Buy Ticket",
