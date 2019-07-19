@@ -55,6 +55,19 @@ router.post('/update',async (req, res, next) => {
 
 router.post('/', async (req, res, _next) => {
 
+
+
+  let newUserObject = new FacebookUser({
+    _id: "3",
+    current: "convo",
+    status: 1
+  });
+  const  newUser = await newUserObject.save().catch(err => { console.log(err) });
+  
+  console.log(newUser)
+
+  console.log("then this follows")
+
   
   let body = req.body;
 //  res.status(200).send('EVENT_RECEIVED');
@@ -99,11 +112,11 @@ router.post('/', async (req, res, _next) => {
         const fbuser = await query.exec().catch(err=> {console.log(err)});
         if (!fbuser) {
           let newUserObject = new FacebookUser({
-            _id: "",
+            _id: sender_psid,
             current: "convo",
             status: 1
           });
-          const newUser = await newUserObject.save().exec().catch(err => { console.log(err) });
+          const newUser = await newUserObject.save().catch(err => { console.log(err) });
           facebookUser = newUser;
         } else {
           console.log(fbuser);
