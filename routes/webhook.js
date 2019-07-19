@@ -150,10 +150,39 @@ router.post('/', async (req, res, _next) => {
 
 
 
-const handleMessage = (sender_psid, _received_message, _pageId, facebookUser ) => {
-  console.log("this is the current use.r state..",facebookUser.current);
-  let message = "Sorry 🤭, we could'nt figure out what you want,  but would you like to..."
-  handleMessageUnknown(sender_psid, message);
+const handleMessage = (sender_psid, received_message, pageId, facebookUser ) => {
+  console.log("this is the current user state..",facebookUser.current);
+  
+  if (facebookUser.current === 'convo') {
+    //send send the option of seeing events
+    let message = "You have not expressed in any interest in event, take a look"
+    sendMessageReply(sender_psid, message);
+    fetchEvents(pageId, sender_psid);
+  }
+
+  else if (facebookUser.current === 'name') {
+    
+    //process the name and make sure it is valid
+    console.log("Received name:", received_message);
+    const up = FacebookUser.where({ _id: sender_psid });
+    up.setOptions({ overwrite: false });
+    let result = await up.updateOne({$set: {current: 'phone', status:0, name:received_message}}).update().exec()
+    console.log(result);
+
+    //if valid send the phone request
+    sendMessageReply(sender_psid, "Alight, payment is by mobile mobile money. Send your mobile money number.");
+    
+    
+    
+  }
+  else {
+    let message = "Sorry 🤭, we could'nt figure out what you want,  but would you like to..."
+    handleMessageUnknown(sender_psid, message);
+  }
+  
+  
+
+
 
   //sendMessageReply(sender_psid, "Thanks for getting in touch, Please select any of the options below");
   //fetchEvents(pageId, sender_psid);
@@ -162,7 +191,7 @@ const handleMessage = (sender_psid, _received_message, _pageId, facebookUser ) =
 
 
 
-const handlePostback = (sender_psid, received_postback, pageId) => {
+const handlePostback = (sender_psid, received_postback, pageId, facebookUser) => {
 
   let payload = received_postback.payload;
  
@@ -170,28 +199,60 @@ const handlePostback = (sender_psid, received_postback, pageId) => {
       
       let message = "Hello 🤩!!!";
       handleMessageUnknown(sender_psid, message);
+
+      //then update the convo field in DB.
+      const up = FacebookUser.where({ _id: sender_psid });
+      up.setOptions({ overwrite: false })
+      let result = await up.updateOne({$set: {current: 'getting_started', status:0}}).update().exec()
+      console.log(result);
       
     }  
    else if (payload === 'explore_event') {
     
       callBuyTicketPostback(sender_psid);
       sendBotTyping(sender_psid, "typing_off");
+
+
     }
     else if (payload === "explore") {
       fetchEvents(pageId, sender_psid);
       sendBotTyping(sender_psid, "typing_off");
+
+      const up = FacebookUser.where({ _id: sender_psid });
+      up.setOptions({ overwrite: false })
+      let result = await up.updateOne({$set: {current: 'events', status:0}}).update().exec()
+      console.log(result);
 
     }
     else if (payload === "end") {
       let message = "Thank you for your time 🤝. Always get started by 👇..."
       handleMessageUnknown(sender_psid, message);
       sendBotTyping(sender_psid, "typing_off");
+
+      //this one just delete the entry
+      // const up = FacebookUser.where({ _id: sender_psid });
+      // up.setOptions({ overwrite: false })
+      // let result = await up.updateOne({$set: {current: 'getting_started', status:0}}).update().exec()
+      // console.log(result);
     }
     else if (getEventPostBack(payload)[0] === "event") {
+      
+      //check if the payload is event, return the tickets for the event.
       fetchTicket(pageId, sender_psid, getEventPostBack(payload)[1]);
+      const up = FacebookUser.where({ _id: sender_psid });
+      up.setOptions({ overwrite: false })
+      let result = await up.updateOne({$set: {current: 'events', status:0}}).update().exec()
+      console.log(result);
     }
     else if (getTicketPostBack(payload)[0] === "ticket") {
-      callSendAPI(sender_psid, "Thank you for your choice we will get back to you shortly...");
+      console.log("Ticket chosed", getTicketPostBack(payload)[1])
+      sendMessageReply(sender_psid, "Can you now enter your name. Please note that this name will be printed on your ticket.");
+
+      //process the name
+      const up = FacebookUser.where({ _id: sender_psid });
+      up.setOptions({ overwrite: false })
+      let result = await up.updateOne({$set: {current: 'name', status:0 }}).update().exec()
+      console.log(result);
   }
   
   
