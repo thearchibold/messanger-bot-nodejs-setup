@@ -133,7 +133,9 @@ router.post('/', async (req, res, _next) => {
 
 
 const handleMessage = async (sender_psid, received_message, pageId, facebookUser ) => {
-  console.log("this is the current user state..",facebookUser.current);
+  console.log("this is the current user state..", facebookUser.current);
+  
+  //checks the current converstion status of the user 
   
   if (facebookUser.current === 'convo') {
     //send send the option of seeing events
@@ -158,31 +160,24 @@ const handleMessage = async (sender_psid, received_message, pageId, facebookUser
     
   }
   else if (facebookUser.current === 'phone') {
-
     
     //process the name and make sure it is valid
-    if (facebookUser.phone !== null) {
-          console.log("User phone number",facebookUser.phone);
-          if (facebookUser.phone.match(/^[0-9]+$/) && facebookUser.phone.length >= 10) {
-            console.log("valid");
-            sendMessageReply(sender_psid, `Sending message to ${facebookUser.phone}...`);
-            //do all the neccesary backend calls to the mobile money API.
-            setTimeout(() => {
-              sendMessageReply(sender_psid, "Payment is complete. Enjoy yourself");          
-            }, 5000)
-          }
-          else {
-            console.log("invalid");
-            sendMessageReply(sender_psid, "Please your phone number is invalid, enter a valid number");
-          }
-    } else {
-      sendMessageReply(sender_psid, "No valid Mobile money number found, what is your mobile money number");
-    
+    console.log("User phone number",received_message.text);
+    if (received_message.text.match(/^[0-9]+$/) && received_message.text.length >= 10) {
+      console.log("valid");
+      
+      const up = FacebookUser.where({ _id: sender_psid });
+      up.setOptions({ overwrite: false });
+      let result = await up.updateOne({$set: {current: 'count', status:0, phone:received_message.text}}).update().exec().catch(err=> console.log(err))
+      console.log(result);
+      sendMessageReply(sender_psid, `How many tickets do you want to buy`);
+
+      //do all the neccesary backend calls to the mobile money API.
     }
-    // const up = FacebookUser.where({ _id: sender_psid });
-    // up.setOptions({ overwrite: false });
-    // let result = await up.updateOne({$set: {current: 'payment', status:0, phone:received_message.text}}).update().exec().catch(err=> console.log(err))
-    // console.log(result);
+    else {
+      console.log("invalid");
+      sendMessageReply(sender_psid, "Please your phone number is invalid, enter a valid number");
+    }
 
     //if valid send the phone request
     // sendMessageReply(sender_psid, "A message will be sent to your phone, please continue the payment. Once payment is complete, a messange will be sent to you.");
@@ -190,8 +185,10 @@ const handleMessage = async (sender_psid, received_message, pageId, facebookUser
     
   } else if (facebookUser.current === 'payment') {
     if (facebookUser.phone) {
-      sendMessageReply(sender_psid, `A message will be sent to $, please continue the payment. Once payment is complete, a messange will be sent to you.`);
+      sendMessageReply(sender_psid, `A message will be sent to please continue the payment. Once payment is complete, a messange will be sent to you.`);
 
+    } else {
+      sendMessageReply(sender_psid, `Please tell us the  number of tickets you want to buy`);
     }
     
   }
