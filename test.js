@@ -1,54 +1,6 @@
-var request = require("request");
-
-const token ="EAAQc78T7kqsBAEO2fWZC1MWl7fEZAXfr3skmnZBr34aGcQawCrE7wMuwk8acSg5U6nmp4sF5ZCbx4I17CZAok5tUQeJQJj3tTmrUVXhadolzpFWsF9lWJe2aZBpsQhalOj1m4sj5nSvjhrDVY1zmWcyPNGW5f8UjBheSeDSCwdvxvj8XtlztQL"
-
-
-const handleMessageUnknown = (psid, message) => {
-  var options = {
-    "uri": "https://graph.facebook.com/v3.0/me/messages",
-    "qs": { "access_token": token },
-    "method": "POST",
-    "json": {
-      recipient: { id: psid },
-      "message":{
-        "attachment":{
-          "type":"template",
-          "payload":{
-            "template_type":"button",
-            "text": "Sorry 🤭, we could figure out what you wanted but would you like to...",
-            "buttons":[
-              {
-            "type":"postback",
-            "title":"Not interested 😢",
-            "payload":"end"
-          },{
-            "type":"postback",
-            "title":"Explore events 💪🥳",
-            "payload":"explore"
-          }
-            ]
-          }
-        }
-      }
-    }
-  };
-  
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-  
-    console.log(body);
-  });
-  
+let text = "0271898933";
+if (text.match(/^[0-9]+$/) && text.length >= 10) {
+  console.log("valid")
+} else {
+  console.log("invalid")
 }
-
-// let message = ` 🤝 . Always get started by 👇...`
-// handleMessageUnknown(2333191926726881, message);
-
-
-function getEventPostBack(postback = 'event_laughline-1') {
- 
-  console.log(postback.indexOf("event") > - 1)
-  return [type, slug] = postback.split("_");
-}
-
-console.log(`https://google.com/${getEventPostBack()[1]}`)

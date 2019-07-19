@@ -159,18 +159,40 @@ const handleMessage = async (sender_psid, received_message, pageId, facebookUser
   }
   else if (facebookUser.current === 'phone') {
 
+    
     //process the name and make sure it is valid
-    console.log("Received phone:", received_message.text);
-    sendMessageReply(sender_psid, "A message will be sent to your phone, please continue the payment. Once payment is complete, a messange will be sent to you.");
+    if (facebookUser.phone) {
+          console.log();
+          if (facebookUser.phone.match(/^[0-9]+$/) && facebookUser.phone.length >= 10) {
+            console.log("valid");
+            sendMessageReply(sender_psid, `Sending message to ${facebookUser.phone}...`);
+            //do all the neccesary backend calls to the mobile money API.
+            setTimeout(() => {
+              sendMessageReply(sender_psid, "Payment is complete. Enjoy yourself");          
+            })
+          }
+          else {
+            console.log("invalid");
+            sendMessageReply(sender_psid, "Please your phone number is invalid, enter a valid number");
+          }
+    } else {
+      sendMessageReply(sender_psid, "No valid Mobile money number found, what is your mobile money number");
+    
+    }
     // const up = FacebookUser.where({ _id: sender_psid });
     // up.setOptions({ overwrite: false });
-    // let result = await up.updateOne({$set: {current: 'phone', status:0, name:received_message.text}}).update().exec().catch(err=> console.log(err))
+    // let result = await up.updateOne({$set: {current: 'payment', status:0, phone:received_message.text}}).update().exec().catch(err=> console.log(err))
     // console.log(result);
 
-    // //if valid send the phone request
-    // sendMessageReply(sender_psid, "Alight, payment is by mobile mobile money. Send your mobile money number.");
+    //if valid send the phone request
+    sendMessageReply(sender_psid, "A message will be sent to your phone, please continue the payment. Once payment is complete, a messange will be sent to you.");
     
     
+  } else if (facebookUser.current === 'payment') {
+    if (facebookUser.phone) {
+      sendMessageReply(sender_psid, `A message will be sent to $, please continue the payment. Once payment is complete, a messange will be sent to you.`);
+
+    }
     
   }
   else {
