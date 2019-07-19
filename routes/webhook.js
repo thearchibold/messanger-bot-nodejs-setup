@@ -88,7 +88,7 @@ router.post('/', async (req, res, _next) => {
     console.log(id, sender)
 
     let facebookUser = null;
-    let query =  FacebookUser.findById(sender_psid, 'current');
+    let query =  FacebookUser.findById(sender.id, 'current');
      const fbuser = await query.exec().catch(err=> {console.log(err)});
      if (!fbuser) {
        let newUserObject = new FacebookUser({
