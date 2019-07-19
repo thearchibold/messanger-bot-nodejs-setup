@@ -161,15 +161,15 @@ const handleMessage = async (sender_psid, received_message, pageId, facebookUser
 
     
     //process the name and make sure it is valid
-    if (facebookUser.phone) {
-          console.log();
+    if (facebookUser.phone !== null) {
+          console.log("User phone number",facebookUser.phone);
           if (facebookUser.phone.match(/^[0-9]+$/) && facebookUser.phone.length >= 10) {
             console.log("valid");
             sendMessageReply(sender_psid, `Sending message to ${facebookUser.phone}...`);
             //do all the neccesary backend calls to the mobile money API.
             setTimeout(() => {
               sendMessageReply(sender_psid, "Payment is complete. Enjoy yourself");          
-            })
+            }, 5000)
           }
           else {
             console.log("invalid");
@@ -185,7 +185,7 @@ const handleMessage = async (sender_psid, received_message, pageId, facebookUser
     // console.log(result);
 
     //if valid send the phone request
-    sendMessageReply(sender_psid, "A message will be sent to your phone, please continue the payment. Once payment is complete, a messange will be sent to you.");
+    // sendMessageReply(sender_psid, "A message will be sent to your phone, please continue the payment. Once payment is complete, a messange will be sent to you.");
     
     
   } else if (facebookUser.current === 'payment') {
