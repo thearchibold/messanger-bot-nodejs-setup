@@ -145,10 +145,10 @@ const handleMessage = async (sender_psid, received_message, pageId, facebookUser
   else if (facebookUser.current === 'name') {
 
     //process the name and make sure it is valid
-    console.log("Received name:", received_message);
+    console.log("Received name:", received_message.text);
     const up = FacebookUser.where({ _id: sender_psid });
     up.setOptions({ overwrite: false });
-    let result = await up.updateOne({$set: {current: 'phone', status:0, name:received_message}}).update().exec().catch(err=> console.log(err))
+    let result = await up.updateOne({$set: {current: 'phone', status:0, name:received_message.text}}).update().exec().catch(err=> console.log(err))
     console.log(result);
 
     //if valid send the phone request
@@ -179,7 +179,7 @@ const handlePostback = async (sender_psid, received_postback, pageId, facebookUs
  
     if(payload === 'GET_STARTED'){
       
-      let message = "Hello 🤩!!!";
+      let message = "Hello welcome to our page🤩!!!";
       handleMessageUnknown(sender_psid, message);
 
       //then update the convo field in DB.
