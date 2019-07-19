@@ -108,7 +108,7 @@ router.post('/', async (req, res, _next) => {
         sendBotTyping(sender_psid, "typing_on");
         handleMessage(sender_psid, webhook_event.message, element.id, facebookUser);
         sendBotTyping(sender_psid, "typing_off");
-        res.status(200).send('EVENT_RECEIVED');
+        
       }
       if (webhook_event.postback) {
         console.log(webhook_event.postback);
@@ -116,7 +116,6 @@ router.post('/', async (req, res, _next) => {
         sendBotTyping(sender_psid, "typing_on");
         handlePostback(sender_psid, webhook_event.postback, element.id);
         sendBotTyping(sender_psid, "typing_off");
-        //res.status(200).send('EVENT_RECEIVED');
         
       }
       
@@ -125,7 +124,7 @@ router.post('/', async (req, res, _next) => {
 
    
   } else {
-    res.sendStatus(403)
+    res.sendStatus(403);
   }
 
   
@@ -224,18 +223,19 @@ const handlePostback = async (sender_psid, received_postback, pageId, facebookUs
       fetchTicket(pageId, sender_psid, getEventPostBack(payload)[1]);
       const up = FacebookUser.where({ _id: sender_psid });
       up.setOptions({ overwrite: false })
-      let result = await up.updateOne({$set: {current: 'events', status:0}}).update().exec()
+      let result = await up.updateOne({$set: {current: 'events', status:0}}).update().exec().catch(err=>console.log(err))
       console.log(result);
     }
     else if (getTicketPostBack(payload)[0] === "ticket") {
       console.log("Ticket chosed", getTicketPostBack(payload)[1])
-      sendMessageReply(sender_psid, "Can you now enter your name. Please note that this name will be printed on your ticket.");
+      sendMessageReply(sender_psid, "Can you now enter your name.\nPlease NOTE: that this name will be printed on your ticket.");
 
       //process the name
       const up = FacebookUser.where({ _id: sender_psid });
       up.setOptions({ overwrite: false })
-      let result = await up.updateOne({$set: {current: 'name', status:0 }}).update().exec()
+      let result = await up.updateOne({$set: {current: 'name', status:0 }}).update().exec().catch(err=>console.log(err))
       console.log(result);
+      //console.log(result);
   }
   
   
@@ -278,7 +278,7 @@ const getStartedTemplate = () => {
 
 
 const sendBotTyping = (sender_psid,typing_state, cb = null) => {
-  console.log("calling buy ticket")
+  //console.log("calling buy ticket")
   // Construct the message body
   let request_body = {
     "recipient":{
@@ -365,7 +365,7 @@ const callSendAPI = (sender_psid, response, cb = null) => {
 }
 
 const sendEvents = (sender_psid,events, cb = null) => {
-  console.log("calling buy ticket")
+  //console.log("calling buy ticket")
   // Construct the message body
   let request_body = {
     "recipient":{
