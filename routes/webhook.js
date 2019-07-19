@@ -47,7 +47,7 @@ router.post('/update',async (req, res, next) => {
   console.log(req.query.id);
   const up = FacebookUser.where({ _id: req.query.id });
   up.setOptions({ overwrite: false })
-  let result = await up.updateOne({$set: {current: 'done', status:0}}).update().exec()
+  let result = await up.updateOne({$set: {current: 'done', status:0}}).update().exec().catch(err=>console.log(err))
   console.log(result)
 })
 
@@ -148,7 +148,7 @@ const handleMessage = async (sender_psid, received_message, pageId, facebookUser
     console.log("Received name:", received_message);
     const up = FacebookUser.where({ _id: sender_psid });
     up.setOptions({ overwrite: false });
-    let result = await up.updateOne({$set: {current: 'phone', status:0, name:received_message}}).update().exec()
+    let result = await up.updateOne({$set: {current: 'phone', status:0, name:received_message}}).update().exec().catch(err=> console.log(err))
     console.log(result);
 
     //if valid send the phone request
@@ -185,7 +185,7 @@ const handlePostback = async (sender_psid, received_postback, pageId, facebookUs
       //then update the convo field in DB.
       const up = FacebookUser.where({ _id: sender_psid });
       up.setOptions({ overwrite: false })
-      let result = await up.updateOne({$set: {current: 'getting_started', status:0}}).update().exec()
+      let result = await up.updateOne({$set: {current: 'getting_started', status:0}}).update().exec().catch(err=>console.log(err))
       console.log(result);
       
     }  
@@ -202,7 +202,7 @@ const handlePostback = async (sender_psid, received_postback, pageId, facebookUs
 
       const up = FacebookUser.where({ _id: sender_psid });
       up.setOptions({ overwrite: false })
-      let result = await up.updateOne({$set: {current: 'events', status:0}}).update().exec()
+      let result = await up.updateOne({$set: {current: 'events', status:0}}).update().exec().catch(err=>console.log(err))
       console.log(result);
 
     }
@@ -214,7 +214,7 @@ const handlePostback = async (sender_psid, received_postback, pageId, facebookUs
       //this one just delete the entry
       // const up = FacebookUser.where({ _id: sender_psid });
       // up.setOptions({ overwrite: false })
-      // let result = await up.updateOne({$set: {current: 'getting_started', status:0}}).update().exec()
+      // let result = await up.updateOne({$set: {current: 'getting_started', status:0}}).update().exec().catch(err=>console.log(err))
       // console.log(result);
     }
     else if (getEventPostBack(payload)[0] === "event") {
