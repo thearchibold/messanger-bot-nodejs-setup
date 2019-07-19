@@ -58,23 +58,6 @@ router.post('/', async (req, res, _next) => {
   
   let body = req.body;
   //console.log(body.id);
-  
-  
-  // const fbuser = new FacebookUser({
-  //   _id: 2333191926726882,
-  //   current: "events",
-  //   status: 0
-  // })
-  // fbuser.save().then(result => {
-  //   res.status(200).send(result);
-  // }).catch(err => {
-  //   res.status(400).send(err);
-  // })
-  
-
-  
-
- // console.log("incoming request", body);
 
   //check this is an event from a page
   if (body.object === 'page') {
@@ -150,7 +133,7 @@ router.post('/', async (req, res, _next) => {
 
 
 
-const handleMessage = (sender_psid, received_message, pageId, facebookUser ) => {
+const handleMessage = async (sender_psid, received_message, pageId, facebookUser ) => {
   console.log("this is the current user state..",facebookUser.current);
   
   if (facebookUser.current === 'convo') {
@@ -161,7 +144,7 @@ const handleMessage = (sender_psid, received_message, pageId, facebookUser ) => 
   }
 
   else if (facebookUser.current === 'name') {
-    
+
     //process the name and make sure it is valid
     console.log("Received name:", received_message);
     const up = FacebookUser.where({ _id: sender_psid });
@@ -191,7 +174,7 @@ const handleMessage = (sender_psid, received_message, pageId, facebookUser ) => 
 
 
 
-const handlePostback = (sender_psid, received_postback, pageId, facebookUser) => {
+const handlePostback = async (sender_psid, received_postback, pageId, facebookUser) => {
 
   let payload = received_postback.payload;
  
