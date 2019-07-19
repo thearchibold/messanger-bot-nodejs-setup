@@ -57,7 +57,6 @@ router.post('/', async (req, res, _next) => {
 
   
   let body = req.body;
-  res.status(200).send('EVENT_RECEIVED');
   //console.log(body.id);
   
   
@@ -87,8 +86,8 @@ router.post('/', async (req, res, _next) => {
 
     console.log(id, sender)
 
-    let facebookUser = null;
-    let query =  FacebookUser.findById(sender.id, 'current');
+     let facebookUser = null;
+     let query =  FacebookUser.findById(sender.id, 'current');
      const fbuser = await query.exec().catch(err=> {console.log(err)});
      if (!fbuser) {
        let newUserObject = new FacebookUser({
@@ -106,6 +105,7 @@ router.post('/', async (req, res, _next) => {
     
     //webhook_event = body.entry[0].messaging[0];
     body.entry.forEach(async element => {
+      res.status(200).send('EVENT_RECEIVED');
      
       console.log("page ID", element.id); 
 
@@ -125,7 +125,7 @@ router.post('/', async (req, res, _next) => {
         sendBotTyping(sender_psid, "typing_on");
         handleMessage(sender_psid, webhook_event.message, element.id, facebookUser);
         sendBotTyping(sender_psid, "typing_off");
-       // res.status(200).send('EVENT_RECEIVED');
+        res.status(200).send('EVENT_RECEIVED');
       }
       if (webhook_event.postback) {
         console.log(webhook_event.postback);
@@ -150,8 +150,8 @@ router.post('/', async (req, res, _next) => {
 
 
 
-const handleMessage = (sender_psid, _received_message, _pageId) => {
-  console.log("this is the current user...",facebookUser);
+const handleMessage = (sender_psid, _received_message, _pageId, facebookUser ) => {
+  console.log("this is the current use.r state..",facebookUser.current);
   let message = "Sorry 🤭, we could'nt figure out what you want,  but would you like to..."
   handleMessageUnknown(sender_psid, message);
 
