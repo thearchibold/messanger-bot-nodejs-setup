@@ -1,17 +1,16 @@
 const router = require('express').Router();
 var request = require("request");
 
+const FacebookUser = require("../models/FacebookUser");
+const Ticket = require("../models/Ticket");
 
 require('dotenv').config()
 
-require("../helpers/functions")
+require("../helpers/functions");
 
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const SEND_API = process.env.SEND_API;
-
-console.log("Page token", PAGE_ACCESS_TOKEN)
-
 
 
 
@@ -44,15 +43,37 @@ router.get('/', (req, res) => {
   }
 });
 
+router.post('/update',async (req, res, next) => {
+  console.log(req.query.id);
+  const up = FacebookUser.where({ _id: req.query.id });
+  up.setOptions({ overwrite: false })
+  let result = await up.updateOne({$set: {current: 'done', status:0}}).update().exec()
+  console.log(result)
+})
 
 
 
-
-router.post('/', (req, res, _next) => {
+router.post('/', async (req, res, _next) => {
 
   
   let body = req.body;
-  res.status(200).send('EVENT_RECEIVED');
+//  res.status(200).send('EVENT_RECEIVED');
+  //console.log(body.id);
+  
+  
+  // const fbuser = new FacebookUser({
+  //   _id: 2333191926726882,
+  //   current: "events",
+  //   status: 0
+  // })
+  // fbuser.save().then(result => {
+  //   res.status(200).send(result);
+  // }).catch(err => {
+  //   res.status(400).send(err);
+  // })
+  
+
+  
 
  // console.log("incoming request", body);
 
@@ -63,13 +84,32 @@ router.post('/', (req, res, _next) => {
 
     
     //webhook_event = body.entry[0].messaging[0];
-    body.entry.forEach(element => {
+    body.entry.forEach(async element => {
      
       console.log("page ID", element.id); 
 
       webhook_event = element.messaging[0];
 
        let sender_psid = webhook_event.sender.id;
+
+      
+       //read facebook ID check if user has an active session
+      let facebookUser = null;
+       let query =  FacebookUser.findById(sender_psid, 'current');
+        const fbuser = await query.exec().catch(err=> {console.log(err)});
+        if (!fbuser) {
+          let newUserObject = new FacebookUser({
+            _id: "",
+            current: "convo",
+            status: 1
+          });
+          const newUser = await newUserObject.save().exec().catch(err => { console.log(err) });
+          facebookUser = newUser;
+        } else {
+          console.log(fbuser);
+          facebookUser = fbuser;
+          }
+  
      
       console.log('Sender PSID: ' + sender_psid);     
 
@@ -77,7 +117,7 @@ router.post('/', (req, res, _next) => {
         console.log(webhook_event.message.text);
 
         sendBotTyping(sender_psid, "typing_on");
-        handleMessage(sender_psid, webhook_event.message, element.id);
+        handleMessage(sender_psid, webhook_event.message, element.id, facebookUser);
         sendBotTyping(sender_psid, "typing_off");
        // res.status(200).send('EVENT_RECEIVED');
       }
@@ -96,7 +136,7 @@ router.post('/', (req, res, _next) => {
 
    
   } else {
-    res.sendStatus(403)
+   // res.sendStatus(403)
   }
 
   
@@ -104,8 +144,8 @@ router.post('/', (req, res, _next) => {
 
 
 
-const handleMessage = (sender_psid, _received_message, _pageId) => {
-  console.log("calling handle message");
+const handleMessage = (sender_psid, _received_message, _pageId, facebookUser) => {
+  console.log("this is the current user...",facebookUser);
   let message = "Sorry 🤭, we could'nt figure out what you want,  but would you like to..."
   handleMessageUnknown(sender_psid, message);
 
