@@ -55,19 +55,6 @@ router.post('/update',async (req, res, next) => {
 
 router.post('/', async (req, res, _next) => {
 
-
-
-  let newUserObject = new FacebookUser({
-    _id: "3",
-    current: "convo",
-    status: 1
-  });
-  const  newUser = await newUserObject.save().catch(err => { console.log(err) });
-  
-  console.log(newUser)
-
-  console.log("then this follows")
-
   
   let body = req.body;
 //  res.status(200).send('EVENT_RECEIVED');
@@ -95,6 +82,27 @@ router.post('/', async (req, res, _next) => {
     
     let webhook_event;
 
+    let { id } = body.entry[0];
+    let { sender } = body.entry[0].messaging[0];
+
+    console.log(id, sender)
+
+    let facebookUser = null;
+    let query =  FacebookUser.findById(sender_psid, 'current');
+     const fbuser = await query.exec().catch(err=> {console.log(err)});
+     if (!fbuser) {
+       let newUserObject = new FacebookUser({
+         _id: sender.id,
+         current: "convo",
+         status: 0
+       });
+       const newUser = await newUserObject.save().catch(err => { console.log(err)});
+       facebookUser = newUser;
+     } else {
+       //console.log(fbuser);
+       facebookUser = fbuser;
+       }
+
     
     //webhook_event = body.entry[0].messaging[0];
     body.entry.forEach(async element => {
@@ -107,22 +115,7 @@ router.post('/', async (req, res, _next) => {
 
       
        //read facebook ID check if user has an active session
-      let facebookUser = null;
-       let query =  FacebookUser.findById(sender_psid, 'current');
-        const fbuser = await query.exec().catch(err=> {console.log(err)});
-        if (!fbuser) {
-          let newUserObject = new FacebookUser({
-            _id: sender_psid,
-            current: "convo",
-            status: 1
-          });
-          const newUser = await newUserObject.save().catch(err => { console.log(err) });
-          facebookUser = newUser;
-        } else {
-          console.log(fbuser);
-          facebookUser = fbuser;
-          }
-  
+     
      
       console.log('Sender PSID: ' + sender_psid);     
 
