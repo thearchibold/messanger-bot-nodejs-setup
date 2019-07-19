@@ -157,6 +157,22 @@ const handleMessage = async (sender_psid, received_message, pageId, facebookUser
     
     
   }
+  else if (facebookUser.current === 'phone') {
+
+    //process the name and make sure it is valid
+    console.log("Received phone:", received_message.text);
+    sendMessageReply(sender_psid, "A message will be sent to your phone, please continue the payment. Once payment is complete, a messange will be sent to you.");
+    // const up = FacebookUser.where({ _id: sender_psid });
+    // up.setOptions({ overwrite: false });
+    // let result = await up.updateOne({$set: {current: 'phone', status:0, name:received_message.text}}).update().exec().catch(err=> console.log(err))
+    // console.log(result);
+
+    // //if valid send the phone request
+    // sendMessageReply(sender_psid, "Alight, payment is by mobile mobile money. Send your mobile money number.");
+    
+    
+    
+  }
   else {
     let message = "Sorry 🤭, we could'nt figure out what you want,  but would you like to..."
     handleMessageUnknown(sender_psid, message);
