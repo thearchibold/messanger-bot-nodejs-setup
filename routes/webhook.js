@@ -168,7 +168,7 @@ const handleMessage = async (sender_psid, received_message, pageId, facebookUser
       
       const up = FacebookUser.where({ _id: sender_psid });
       up.setOptions({ overwrite: false });
-      let result = await up.updateOne({$set: {current: 'count', status:0, phone:received_message.text}}).update().exec().catch(err=> console.log(err))
+      let result = await up.updateOne({$set: {current: 'count', status:0, phone:"+233"+String(received_message.text)}}).update().exec().catch(err=> console.log(err))
       console.log(result);
       sendMessageReply(sender_psid, `How many tickets do you want to buy`);
 
@@ -183,12 +183,15 @@ const handleMessage = async (sender_psid, received_message, pageId, facebookUser
     // sendMessageReply(sender_psid, "A message will be sent to your phone, please continue the payment. Once payment is complete, a messange will be sent to you.");
     
     
-  } else if (facebookUser.current === 'payment') {
-    if (facebookUser.phone) {
-      sendMessageReply(sender_psid, `A message will be sent to please continue the payment. Once payment is complete, a messange will be sent to you.`);
+  } else if (facebookUser.current === 'count') {
+    if (received_message.text.match(/^[0-9]+$/) && received_message.text > 0) {
+      sendMessageReply(sender_psid, "Alright, processing your request");
+      setTimeout(() => {
+        sendMessageReply(sender_psid, "Ticket purchase is done. Thank you for coming");
 
+      }, 2000)
     } else {
-      sendMessageReply(sender_psid, `Please tell us the  number of tickets you want to buy`);
+      sendMessageReply(sender_psid, "Please enter a valid number");
     }
     
   }
