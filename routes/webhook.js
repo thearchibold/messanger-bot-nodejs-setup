@@ -6,7 +6,7 @@ require("../helpers/functions");
 
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-const SEND_API = process.env.SEND_API;
+
 
 
 router.get('/', (req, res) => {
@@ -38,13 +38,7 @@ router.get('/', (req, res) => {
   }
 });
 
-// router.post('/update',async (req, res, next) => {
-//   console.log(req.query.id);
-//   const up = FacebookUser.where({ _id: req.query.id });
-//   up.setOptions({ overwrite: false });
-//   let result = await up.updateOne({$set: {current: 'done', status:0}}).update().exec().catch(err=>console.log(err))
-//   console.log(result)
-// });
+
 
 
 
@@ -80,7 +74,9 @@ router.post('/', async (req, res, _next) => {
         if (webhook_event.message) {
             console.log(webhook_event.message.text);
             sendBotTyping(sender_psid, "typing_on");
+
             const res = handleMessage(sender_psid, webhook_event.message, element.id, facebookUser);
+
             sendBotTyping(sender_psid, "typing_off");
 
         }
@@ -88,8 +84,10 @@ router.post('/', async (req, res, _next) => {
         //postback handler
         if (webhook_event.postback) {
             console.log(webhook_event.postback);
+
             sendBotTyping(sender_psid, "typing_on");
             const res = handlePostback(sender_psid, webhook_event.postback, element.id);
+
             console.log(res);
             sendBotTyping(sender_psid, "typing_off");
 
@@ -107,6 +105,7 @@ router.post('/', async (req, res, _next) => {
 
 
 const handleMessage = async (sender_psid, received_message, pageId ) => {
+  
     console.log("Implement postback methods here",);
 };
 
@@ -129,33 +128,6 @@ const handlePostback = async (sender_psid, received_postback, pageId, facebookUs
 
 
 
-
-
-const getStartedTemplate = () => {
-  return {
-    "attachment": {
-      "type": "template",
-      "payload": {
-        "template_type": "generic",
-        "elements": [
-          {
-            "title": "Welcome!",
-            "image_url": "https://myticketgh.com/assets/images/logo.png",
-            "subtitle": "What would you like to do today.",
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Explore events",
-                "payload": "explore_event"
-              }
-            ]
-          }
-        ]
-      }
-    }
-
-  }
-};
 
 
 const sendBotTyping = (sender_psid,typing_state, cb = null) => {
@@ -267,7 +239,7 @@ const handleMessageUnknown = (psid, message) => {
                                 "payload":"end"
                             },{
                                 "type":"postback",
-                                "title":"Explore events 💪🥳",
+                                "title":"Do Something 💪🥳",
                                 "payload":"explore"
                             }
                         ]
