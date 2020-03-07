@@ -195,7 +195,7 @@ const sendMessageReply = (psid, message) => {
     "message":{
       "text":message
     }
-  }
+  };
 
 
   request({
